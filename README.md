@@ -36,7 +36,7 @@ class BankAccount {
 
 ## Status
 
-![Build](https://github.com/lamzi-com/mermaid-java-dsl/actions/workflows/build.yml/badge.svg)
+[![Java CI with Maven](https://github.com/lamzi-com/mermaid-java-dsl/actions/workflows/maven.yml/badge.svg)](https://github.com/lamzi-com/mermaid-java-dsl/actions/workflows/maven.yml)
 
 This project is in an early stage.
 
