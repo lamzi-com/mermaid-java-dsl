@@ -34,6 +34,14 @@ class BankAccount {
 }
 ```
 
+## Status
+
+This project is in an early stage.
+
+The class diagram DSL is functional and tested against Mermaid examples, but the
+public API is still evolving and not yet fully documented. Breaking changes may
+happen before a stable 1.0 release.
+
 ## Current support
 - ✅ Class diagrams — implemented and tested against the official Mermaid documentation examples
 - 🚧 Flowcharts (planned)

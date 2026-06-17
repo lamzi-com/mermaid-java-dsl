@@ -1,0 +1,19 @@
+classDiagram
+    A: +publicInlineMethod()
+    A: +publicInlineAttribute
+    A: -privateInlineMethod()
+    A: -privateInlineAttribute
+    A: #protectedInlineMethod()
+    A: #protectedInlineAttribute
+    A: ~packageInlineMethod()
+    A: ~packageInlineAttribute
+    class B {
+        +publicClassMethod()
+        -privateClassMethod()
+        #protectedClassMethod()
+        ~packageClassMethod()
+        +publicClassAttribute
+        -privateClassAttribute
+        #protectedClassAttribute
+        ~packageClassAttribute
+    }
