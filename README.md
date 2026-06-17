@@ -36,6 +36,8 @@ class BankAccount {
 
 ## Status
 
+![Build](https://github.com/lamzi-com/mermaid-java-dsl/actions/workflows/build.yml/badge.svg)
+
 This project is in an early stage.
 
 The class diagram DSL is functional and tested against Mermaid examples, but the
