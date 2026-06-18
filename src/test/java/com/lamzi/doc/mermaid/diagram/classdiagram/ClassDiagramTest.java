@@ -2,6 +2,7 @@ package com.lamzi.doc.mermaid.diagram.classdiagram;
 
 import com.lamzi.doc.mermaid.diagram.CssClassDefinition;
 import com.lamzi.doc.mermaid.diagram.DiagramFrontMatter;
+import com.lamzi.doc.mermaid.diagram.MermaidException;
 import com.lamzi.doc.mermaid.diagram.MermaidWriter;
 import com.lamzi.doc.mermaid.diagram.classdiagram.inline.InlineCssClassAttachment;
 import com.lamzi.doc.mermaid.diagram.classdiagram.relation.Direction;
@@ -14,6 +15,7 @@ import java.util.List;
 
 import static com.lamzi.doc.mermaid.diagram.classdiagram.ClassDiagramFactory.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 class ClassDiagramTest {
 
@@ -25,7 +27,7 @@ class ClassDiagramTest {
         classDiagram
                 .note("From Duck till Zebra")
                 .relation(inheritance(type("Animal"), type("Duck")))
-                .note(type("Duck"), "can fly\\ncan swim\\ncan dive\\ncan help in debugging")
+                .note(type("Duck"), "can fly<br>can swim<br>can dive<br>can help in debugging")
                 .relation(inheritance(type("Animal"), type("Fish")))
                 .relation(inheritance(type("Animal"), type("Zebra")))
                 .classMember(attribute(type("Animal"), "age").visibility(Visibility.PUBLIC).type(type("int")))
@@ -334,6 +336,109 @@ class ClassDiagramTest {
     }
 
     @Test
+    public void namespaceLabel() {
+        ClassDiagram classDiagram = new ClassDiagram();
+
+        classDiagram
+                .namespace(namespace("Auth")
+                        .label("Authentication Service")
+                        .addclass(aClass(type("UserService"))
+                                .member(method("login").visibility(Visibility.PUBLIC))
+                                .member(method("logout").visibility(Visibility.PUBLIC))
+                        )
+                );
+
+        assertThat(classDiagram.generate()).isEqualTo(read("/namespaceLabel.mmd"));
+
+    }
+
+    @Test
+    public void nestedNamespacesDotNotation() {
+        ClassDiagram classDiagram = new ClassDiagram();
+
+        classDiagram
+                .namespace(namespace("Company.Engineering.Backend")
+                        .addclass(aClass(type("Developer"))
+                                .member(method("writeCode").visibility(Visibility.PUBLIC))
+                        )
+                )
+                .namespace(namespace("Company.Engineering.Frontend")
+                        .addclass(aClass(type("Designer"))
+                                .member(method("createMockup").visibility(Visibility.PUBLIC))
+                        )
+                )
+                .namespace(namespace("Company.Engineering")
+                        .addclass(aClass("TechLead")
+                                .member(method("planSprint").visibility(Visibility.PUBLIC))
+                        )
+                )
+                .relation(association(type("TechLead"), type("Developer")).label("leads"))
+                .relation(association(type("TechLead"), type("Designer")).label("leads"))
+        ;
+
+        assertThat(classDiagram.generate()).isEqualTo(read("/nestedNamespacesDotNotation.mmd"));
+    }
+
+    @Test
+    public void nestedNamespacesSyntacticNesting() {
+        ClassDiagram classDiagram = new ClassDiagram();
+
+        classDiagram
+                .namespace(namespace("Platform")
+                        .namespace(namespace("Auth")
+                                .addclass(aClass("UserService")
+                                        .member(method("login").visibility(Visibility.PUBLIC))
+                                        .member(method("logout").visibility(Visibility.PUBLIC))
+                                )
+                        )
+                        .namespace(namespace("Data")
+                                .addclass(aClass("Repository")
+                                        .member(method("find").visibility(Visibility.PUBLIC))
+                                        .member(method("save").visibility(Visibility.PUBLIC))
+                                )
+                        )
+                        .addclass(aClass("Gateway")
+                                .member(method("route").visibility(Visibility.PUBLIC))
+                        )
+                )
+                .relation(association(type("Gateway"), type("UserService")).label("delegates"))
+                .relation(association(type("Gateway"), type("Repository")).label("delegates"))
+        ;
+
+        assertThat(classDiagram.generate()).isEqualTo(read("/nestedNamespacesSyntacticNesting.mmd"));
+    }
+
+    @Test
+    public void hierarchicalNamespaces() {
+        ClassDiagramConfiguration config = new ClassDiagramConfiguration().hierarchicalNamespaces(false);
+        DiagramFrontMatter<ClassDiagramConfiguration> frontMatter = new DiagramFrontMatter<>(config);
+        ClassDiagram classDiagram = new ClassDiagram(frontMatter);
+
+        classDiagram
+                .namespace(namespace("Company.Engineering.Backend")
+                        .addclass(aClass("Developer")
+                                .member(method("writeCode").visibility(Visibility.PUBLIC))
+                        )
+                )
+                .namespace(namespace("Company.Engineering.Frontend")
+                        .addclass(aClass("Designer")
+                                .member(method("createMockup").visibility(Visibility.PUBLIC))
+                        )
+                )
+                .namespace(namespace("Company")
+                        .addclass(aClass("CEO")
+                                .member(method("makeDecisions").visibility(Visibility.PUBLIC))
+                        )
+                )
+                .relation(association(type("CEO"), type("Developer")).label("oversees"))
+                .relation(association(type("CEO"), type("Designer")).label("oversees"))
+        ;
+
+        assertThat(classDiagram.generate()).isEqualTo(read("/hierarchicalNamespaces.mmd"));
+    }
+
+
+    @Test
     public void cardinality() {
         ClassDiagram classDiagram = new ClassDiagram();
 
@@ -345,6 +450,40 @@ class ClassDiagramTest {
         assertThat(classDiagram.generate()).isEqualTo(read("/cardinality.mmd"));
 
     }
+
+
+    @Test
+    public void inlineAnnotationWithClassDefinition() {
+        ClassDiagram classDiagram = new ClassDiagram();
+
+        classDiagram
+                .classElement(aClass("Shape").inlineAnnotation("interface"));
+
+        assertThat(classDiagram.generate()).isEqualTo(read("/inlineAnnotationWithClassDefinition.mmd"));
+    }
+
+    @Test
+    public void inlineAnnotationWithCssClassIsNotSupported() {
+        assertThatThrownBy(() ->
+                aClass("Shape")
+                        .inlineAnnotation("interface")
+                        .cssClass("someClass")
+        )
+                .isInstanceOf(MermaidException.class)
+                .hasMessage("defining inline annotation and cssClass is not supported");
+    }
+
+    @Test
+    public void cssClassWithInlineAnnotationIsNotSupported() {
+        assertThatThrownBy(() ->
+                aClass("Shape")
+                        .cssClass("someClass")
+                        .inlineAnnotation("interface")
+        )
+                .isInstanceOf(MermaidException.class)
+                .hasMessage("defining inline annotation and cssClass is not supported");
+    }
+
 
     @Test
     public void inlineAnnotation() {
@@ -492,7 +631,6 @@ class ClassDiagramTest {
                 .click(click(Click.Kind.CALLBACK, type("Class03"), "callbackFunction").tooltip("Callback tooltip"))
                 .click(click(Click.Kind.HREF, type("Class04"), "https://www.github.com").tooltip("This is a link"))
         ;
-        System.out.println(classDiagram.generate());
         assertThat(classDiagram.generate()).isEqualTo(read("/actionExample.mmd"));
     }
 
@@ -529,7 +667,6 @@ class ClassDiagramTest {
                 .link(link(zebra, "https://www.github.com").tooltip("This is a link"))
 
         ;
-        System.out.println(classDiagram.generate());
         assertThat(classDiagram.generate()).isEqualTo(read("/actionExample2.mmd"));
     }
 
@@ -553,7 +690,6 @@ class ClassDiagramTest {
                         .addAttribute(StyleDefinition.STROKE_DASH_ARRAY, "5 5")
                 ))
         ;
-        System.out.println(classDiagram.generate());
         assertThat(classDiagram.generate()).isEqualTo(read("/stylingANode.mmd"));
     }
 
@@ -598,7 +734,6 @@ class ClassDiagramTest {
                 .classElement(aClass("Animal").cssClass("someclass"))
                 .cssClassDefinition("someclass", new StyleDefinition().addAttribute(StyleDefinition.FILL, "#f96"))
         ;
-        System.out.println(classDiagram.generate());
         assertThat(classDiagram.generate()).isEqualTo(read("/attachCssClassToNode.mmd"));
     }
 
@@ -614,7 +749,6 @@ class ClassDiagramTest {
                 )
                 .cssClassDefinition("someclass", new StyleDefinition().addAttribute(StyleDefinition.FILL, "#f96"))
         ;
-        System.out.println(classDiagram.generate());
         assertThat(classDiagram.generate()).isEqualTo(read("/attachCssClassToNode2.mmd"));
     }
 
@@ -627,7 +761,6 @@ class ClassDiagramTest {
                 .cssClassDefinition("default", new StyleDefinition().addAttribute(StyleDefinition.FILL, "#f96").addAttribute(StyleDefinition.COLOR, "red"))
                 .cssClassDefinition("pink", new StyleDefinition().addAttribute(StyleDefinition.COLOR, "#f9f"))
         ;
-        System.out.println(classDiagram.generate());
         assertThat(classDiagram.generate()).isEqualTo(read("/defaultCssClass.mmd"));
     }
 

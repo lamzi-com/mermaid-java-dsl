@@ -8,10 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Namespace implements DiagramElement {
+public class Namespace implements DiagramElement, NamespaceElement {
 
     private final String name;
     List<NamespaceElement> elements = new ArrayList<>();
+    private String label;
 
     public Namespace(String name) {
         if (name == null || name.isEmpty()) {
@@ -33,6 +34,11 @@ public class Namespace implements DiagramElement {
         writer.indent(level);
         writer.write("namespace ");
         writer.write(name);
+        if (label != null) {
+            writer.write("[\"");
+            writer.write(label);
+            writer.write("\"]");
+        }
         writer.write(" {");
         writer.eol();
         for (NamespaceElement element : elements) {
@@ -40,10 +46,21 @@ public class Namespace implements DiagramElement {
         }
         writer.indent(level);
         writer.write("}");
+        writer.eol();
     }
 
     public Namespace comment(String comment) {
         this.elements.add(new Comment(comment));
+        return this;
+    }
+
+    public Namespace label(String label) {
+        this.label = label;
+        return this;
+    }
+
+    public Namespace namespace(Namespace namespace) {
+        this.elements.add(namespace);
         return this;
     }
 }

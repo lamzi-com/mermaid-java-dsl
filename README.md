@@ -17,7 +17,7 @@ Add the dependency:
 <dependency>
     <groupId>com.lamzi.doc</groupId>
     <artifactId>mermaid-java-dsl</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
 </dependency>
 ```
 
@@ -54,7 +54,7 @@ classDiagram
 This project is in an early stage.
 
 The class diagram DSL is functional and tested against the official Mermaid 
-documentation examples (currently verified with Mermaid 10.2.4).
+documentation examples (currently verified with Mermaid 11.15.0).
 
 The public API is still evolving and not yet fully documented. Breaking changes
 may happen before a stable 1.0 release.
