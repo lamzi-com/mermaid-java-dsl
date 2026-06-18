@@ -2,6 +2,7 @@ package com.lamzi.doc.mermaid.diagram.classdiagram;
 
 import com.lamzi.doc.mermaid.diagram.CssClassDefinition;
 import com.lamzi.doc.mermaid.diagram.DiagramFrontMatter;
+import com.lamzi.doc.mermaid.diagram.MermaidException;
 import com.lamzi.doc.mermaid.diagram.MermaidWriter;
 import com.lamzi.doc.mermaid.diagram.classdiagram.inline.InlineCssClassAttachment;
 import com.lamzi.doc.mermaid.diagram.classdiagram.relation.Direction;
@@ -14,6 +15,7 @@ import java.util.List;
 
 import static com.lamzi.doc.mermaid.diagram.classdiagram.ClassDiagramFactory.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 class ClassDiagramTest {
 
@@ -345,6 +347,41 @@ class ClassDiagramTest {
         assertThat(classDiagram.generate()).isEqualTo(read("/cardinality.mmd"));
 
     }
+
+
+    @Test
+    public void inlineAnnotationWithClassDefinition(){
+        ClassDiagram classDiagram = new ClassDiagram();
+
+        classDiagram
+                .classElement(aClass("Shape").inlineAnnotation("interface"));
+
+        assertThat(classDiagram.generate()).isEqualTo(read("/inlineAnnotationWithClassDefinition.mmd"));
+    }
+
+    @Test
+    public void inlineAnnotationWithCssClassIsNotSupported() {
+        assertThatThrownBy(() ->
+                aClass("Shape")
+                        .inlineAnnotation("interface")
+                        .cssClass("someClass")
+        )
+                .isInstanceOf(MermaidException.class)
+                .hasMessage("defining inline annotation and cssClass is not supported");
+    }
+
+    @Test
+    public void cssClassWithInlineAnnotationIsNotSupported() {
+        assertThatThrownBy(() ->
+                aClass("Shape")
+                        .cssClass("someClass")
+                        .inlineAnnotation("interface")
+        )
+                .isInstanceOf(MermaidException.class)
+                .hasMessage("defining inline annotation and cssClass is not supported");
+    }
+
+
 
     @Test
     public void inlineAnnotation() {
