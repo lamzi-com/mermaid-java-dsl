@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Namespace implements DiagramElement {
+public class Namespace implements DiagramElement, NamespaceElement {
 
     private final String name;
     List<NamespaceElement> elements = new ArrayList<>();
@@ -56,6 +56,11 @@ public class Namespace implements DiagramElement {
 
     public Namespace label(String label) {
         this.label = label;
+        return this;
+    }
+
+    public Namespace namespace(Namespace namespace) {
+        this.elements.add(namespace);
         return this;
     }
 }

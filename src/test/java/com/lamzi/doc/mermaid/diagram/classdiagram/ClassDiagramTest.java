@@ -377,7 +377,35 @@ class ClassDiagramTest {
         ;
 
         assertThat(classDiagram.generate()).isEqualTo(read("/nestedNamespacesDotNotation.mmd"));
+    }
 
+    @Test
+    public void nestedNamespacesSyntacticNesting() {
+        ClassDiagram classDiagram = new ClassDiagram();
+
+        classDiagram
+                .namespace(namespace("Platform")
+                        .namespace(namespace("Auth")
+                                .addclass(aClass("UserService")
+                                        .member(method("login").visibility(Visibility.PUBLIC))
+                                        .member(method("logout").visibility(Visibility.PUBLIC))
+                                )
+                        )
+                        .namespace(namespace("Data")
+                                .addclass(aClass("Repository")
+                                        .member(method("find").visibility(Visibility.PUBLIC))
+                                        .member(method("save").visibility(Visibility.PUBLIC))
+                                )
+                        )
+                        .addclass(aClass("Gateway")
+                                .member(method("route").visibility(Visibility.PUBLIC))
+                        )
+                )
+                .relation(association(type("Gateway"), type("UserService")).label("delegates"))
+                .relation(association(type("Gateway"), type("Repository")).label("delegates"))
+        ;
+
+        assertThat(classDiagram.generate()).isEqualTo(read("/nestedNamespacesSyntacticNesting.mmd"));
     }
 
 
