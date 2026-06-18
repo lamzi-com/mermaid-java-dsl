@@ -2,15 +2,16 @@
 [![Java CI with Maven](https://github.com/lamzi-com/mermaid-java-dsl/actions/workflows/build.yml/badge.svg)](https://github.com/lamzi-com/mermaid-java-dsl/actions/workflows/build.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/com.lamzi.doc/mermaid-java-dsl.svg)](https://central.sonatype.com/artifact/com.lamzi.doc/mermaid-java-dsl)
 
-A type-safe Java DSL for generating Mermaid diagrams programmatically.
+A type-safe Java DSL for generating [Mermaid](https://mermaid.js.org/) diagrams programmatically.
 
 The library is designed for automation and living documentation.
 Instead of manually assembling Mermaid syntax with strings, it provides a fluent,
 strongly-typed API for building diagrams from Java code.
 
-## Installation
 
-### Maven
+## Quick start
+
+Add the dependency:
 
 ```xml
 <dependency>
@@ -20,7 +21,7 @@ strongly-typed API for building diagrams from Java code.
 </dependency>
 ```
 
-## Example 
+Then generate a Mermaid diagram programmatically:
 
 ```java
 ClassDiagram diagram = new ClassDiagram();
@@ -36,6 +37,8 @@ diagram.classElement(
 System.out.println(diagram.generate());
 ```
 
+Output:
+
 ```mermaid
 classDiagram
     class BankAccount {
@@ -45,9 +48,6 @@ classDiagram
         withdraw(amount)
     }
 ```
-
-## Status
-
 
 ## Status
 
