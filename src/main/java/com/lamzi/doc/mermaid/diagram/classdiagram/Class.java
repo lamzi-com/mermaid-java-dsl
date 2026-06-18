@@ -13,7 +13,7 @@ public class Class implements DiagramElement, NamespaceElement {
     private List<ClassElement> members = new ArrayList<>();
     private String label;
     private String cssClass;
-    private String inlineAnnotation;
+    private Annotation inlineAnnotation;
 
     public Class(Type name) {
         this.name = new ClassName(name);
@@ -29,10 +29,9 @@ public class Class implements DiagramElement, NamespaceElement {
             writer.write(label);
             writer.write("\"]");
         }
-        if(inlineAnnotation!=null){
-            writer.write(" <<");
-            writer.write(inlineAnnotation);
-            writer.write(">>");
+        if (inlineAnnotation != null) {
+            writer.write(" ");
+            inlineAnnotation.writeWithoutEOL(writer, 0);
         }
         if (cssClass != null) {
             writer.write(":::");
@@ -71,18 +70,18 @@ public class Class implements DiagramElement, NamespaceElement {
     }
 
     public Class cssClass(String cssClass) {
-        if(!Objects.isNull(inlineAnnotation)){
+        if (!Objects.isNull(inlineAnnotation)) {
             throw new MermaidException("defining inline annotation and cssClass is not supported");
         }
         this.cssClass = cssClass;
         return this;
     }
 
-    public Class inlineAnnotation(String inlineAnnotation) {
-        if(!Objects.isNull(cssClass)){
+    public Class inlineAnnotation(String annotationName) {
+        if (!Objects.isNull(cssClass)) {
             throw new MermaidException("defining inline annotation and cssClass is not supported");
         }
-        this.inlineAnnotation = inlineAnnotation;
+        this.inlineAnnotation = new Annotation(annotationName);
         return this;
     }
 }

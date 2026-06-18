@@ -529,7 +529,6 @@ class ClassDiagramTest {
                 .click(click(Click.Kind.CALLBACK, type("Class03"), "callbackFunction").tooltip("Callback tooltip"))
                 .click(click(Click.Kind.HREF, type("Class04"), "https://www.github.com").tooltip("This is a link"))
         ;
-        System.out.println(classDiagram.generate());
         assertThat(classDiagram.generate()).isEqualTo(read("/actionExample.mmd"));
     }
 
@@ -566,7 +565,6 @@ class ClassDiagramTest {
                 .link(link(zebra, "https://www.github.com").tooltip("This is a link"))
 
         ;
-        System.out.println(classDiagram.generate());
         assertThat(classDiagram.generate()).isEqualTo(read("/actionExample2.mmd"));
     }
 
@@ -590,7 +588,6 @@ class ClassDiagramTest {
                         .addAttribute(StyleDefinition.STROKE_DASH_ARRAY, "5 5")
                 ))
         ;
-        System.out.println(classDiagram.generate());
         assertThat(classDiagram.generate()).isEqualTo(read("/stylingANode.mmd"));
     }
 
@@ -635,7 +632,6 @@ class ClassDiagramTest {
                 .classElement(aClass("Animal").cssClass("someclass"))
                 .cssClassDefinition("someclass", new StyleDefinition().addAttribute(StyleDefinition.FILL, "#f96"))
         ;
-        System.out.println(classDiagram.generate());
         assertThat(classDiagram.generate()).isEqualTo(read("/attachCssClassToNode.mmd"));
     }
 
@@ -651,7 +647,6 @@ class ClassDiagramTest {
                 )
                 .cssClassDefinition("someclass", new StyleDefinition().addAttribute(StyleDefinition.FILL, "#f96"))
         ;
-        System.out.println(classDiagram.generate());
         assertThat(classDiagram.generate()).isEqualTo(read("/attachCssClassToNode2.mmd"));
     }
 
@@ -664,7 +659,6 @@ class ClassDiagramTest {
                 .cssClassDefinition("default", new StyleDefinition().addAttribute(StyleDefinition.FILL, "#f96").addAttribute(StyleDefinition.COLOR, "red"))
                 .cssClassDefinition("pink", new StyleDefinition().addAttribute(StyleDefinition.COLOR, "#f9f"))
         ;
-        System.out.println(classDiagram.generate());
         assertThat(classDiagram.generate()).isEqualTo(read("/defaultCssClass.mmd"));
     }
 
