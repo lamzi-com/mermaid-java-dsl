@@ -336,6 +336,24 @@ class ClassDiagramTest {
     }
 
     @Test
+    public void namespaceLabel() {
+        ClassDiagram classDiagram = new ClassDiagram();
+
+        classDiagram
+                .namespace(namespace("Auth")
+                        .label("Authentication Service")
+                        .addclass(aClass(type("UserService"))
+                                .member(method("login").visibility(Visibility.PUBLIC))
+                                .member(method("logout").visibility(Visibility.PUBLIC))
+                        )
+                );
+
+        assertThat(classDiagram.generate()).isEqualTo(read("/namespaceLabel.mmd"));
+
+    }
+
+
+    @Test
     public void cardinality() {
         ClassDiagram classDiagram = new ClassDiagram();
 

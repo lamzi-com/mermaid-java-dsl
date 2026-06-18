@@ -12,6 +12,7 @@ public class Namespace implements DiagramElement {
 
     private final String name;
     List<NamespaceElement> elements = new ArrayList<>();
+    private String label;
 
     public Namespace(String name) {
         if (name == null || name.isEmpty()) {
@@ -33,6 +34,11 @@ public class Namespace implements DiagramElement {
         writer.indent(level);
         writer.write("namespace ");
         writer.write(name);
+        if (label != null) {
+            writer.write("[\"");
+            writer.write(label);
+            writer.write("\"]");
+        }
         writer.write(" {");
         writer.eol();
         for (NamespaceElement element : elements) {
@@ -44,6 +50,11 @@ public class Namespace implements DiagramElement {
 
     public Namespace comment(String comment) {
         this.elements.add(new Comment(comment));
+        return this;
+    }
+
+    public Namespace label(String label) {
+        this.label = label;
         return this;
     }
 }
