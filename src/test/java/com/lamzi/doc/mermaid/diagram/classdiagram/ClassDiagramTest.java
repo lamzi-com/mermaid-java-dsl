@@ -408,6 +408,35 @@ class ClassDiagramTest {
         assertThat(classDiagram.generate()).isEqualTo(read("/nestedNamespacesSyntacticNesting.mmd"));
     }
 
+    @Test
+    public void hierarchicalNamespaces() {
+        ClassDiagramConfiguration config = new ClassDiagramConfiguration().hierarchicalNamespaces(false);
+        DiagramFrontMatter<ClassDiagramConfiguration> frontMatter = new DiagramFrontMatter<>(config);
+        ClassDiagram classDiagram = new ClassDiagram(frontMatter);
+
+        classDiagram
+                .namespace(namespace("Company.Engineering.Backend")
+                        .addclass(aClass("Developer")
+                                .member(method("writeCode").visibility(Visibility.PUBLIC))
+                        )
+                )
+                .namespace(namespace("Company.Engineering.Frontend")
+                        .addclass(aClass("Designer")
+                                .member(method("createMockup").visibility(Visibility.PUBLIC))
+                        )
+                )
+                .namespace(namespace("Company")
+                        .addclass(aClass("CEO")
+                                .member(method("makeDecisions").visibility(Visibility.PUBLIC))
+                        )
+                )
+                .relation(association(type("CEO"), type("Developer")).label("oversees"))
+                .relation(association(type("CEO"), type("Designer")).label("oversees"))
+        ;
+
+        assertThat(classDiagram.generate()).isEqualTo(read("/hierarchicalNamespaces.mmd"));
+    }
+
 
     @Test
     public void cardinality() {
