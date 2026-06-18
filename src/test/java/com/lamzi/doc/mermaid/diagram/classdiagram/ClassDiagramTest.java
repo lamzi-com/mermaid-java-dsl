@@ -25,7 +25,7 @@ class ClassDiagramTest {
         classDiagram
                 .note("From Duck till Zebra")
                 .relation(inheritance(type("Animal"), type("Duck")))
-                .note(type("Duck"), "can fly\\ncan swim\\ncan dive\\ncan help in debugging")
+                .note(type("Duck"), "can fly<br>can swim<br>can dive<br>can help in debugging")
                 .relation(inheritance(type("Animal"), type("Fish")))
                 .relation(inheritance(type("Animal"), type("Zebra")))
                 .classMember(attribute(type("Animal"), "age").visibility(Visibility.PUBLIC).type(type("int")))
