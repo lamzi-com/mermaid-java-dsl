@@ -352,6 +352,34 @@ class ClassDiagramTest {
 
     }
 
+    @Test
+    public void nestedNamespacesDotNotation() {
+        ClassDiagram classDiagram = new ClassDiagram();
+
+        classDiagram
+                .namespace(namespace("Company.Engineering.Backend")
+                        .addclass(aClass(type("Developer"))
+                                .member(method("writeCode").visibility(Visibility.PUBLIC))
+                        )
+                )
+                .namespace(namespace("Company.Engineering.Frontend")
+                        .addclass(aClass(type("Designer"))
+                                .member(method("createMockup").visibility(Visibility.PUBLIC))
+                        )
+                )
+                .namespace(namespace("Company.Engineering")
+                        .addclass(aClass("TechLead")
+                                .member(method("planSprint").visibility(Visibility.PUBLIC))
+                        )
+                )
+                .relation(association(type("TechLead"), type("Developer")).label("leads"))
+                .relation(association(type("TechLead"), type("Designer")).label("leads"))
+        ;
+
+        assertThat(classDiagram.generate()).isEqualTo(read("/nestedNamespacesDotNotation.mmd"));
+
+    }
+
 
     @Test
     public void cardinality() {
@@ -368,7 +396,7 @@ class ClassDiagramTest {
 
 
     @Test
-    public void inlineAnnotationWithClassDefinition(){
+    public void inlineAnnotationWithClassDefinition() {
         ClassDiagram classDiagram = new ClassDiagram();
 
         classDiagram
@@ -398,7 +426,6 @@ class ClassDiagramTest {
                 .isInstanceOf(MermaidException.class)
                 .hasMessage("defining inline annotation and cssClass is not supported");
     }
-
 
 
     @Test

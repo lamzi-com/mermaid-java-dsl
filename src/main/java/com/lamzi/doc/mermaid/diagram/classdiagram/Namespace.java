@@ -46,6 +46,7 @@ public class Namespace implements DiagramElement {
         }
         writer.indent(level);
         writer.write("}");
+        writer.eol();
     }
 
     public Namespace comment(String comment) {
