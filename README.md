@@ -49,11 +49,15 @@ classDiagram
 ## Status
 
 
+## Status
+
 This project is in an early stage.
 
-The class diagram DSL is functional and tested against Mermaid examples, but the
-public API is still evolving and not yet fully documented. Breaking changes may
-happen before a stable 1.0 release.
+The class diagram DSL is functional and tested against the official Mermaid 
+documentation examples (currently verified with Mermaid 10.2.4).
+
+The public API is still evolving and not yet fully documented. Breaking changes
+may happen before a stable 1.0 release.
 
 ## Current support
 - ✅ Class diagrams — implemented and tested against the official Mermaid documentation examples
