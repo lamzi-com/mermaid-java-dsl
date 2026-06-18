@@ -1,4 +1,6 @@
 # mermaid-java-dsl
+[![Java CI with Maven](https://github.com/lamzi-com/mermaid-java-dsl/actions/workflows/build.yml/badge.svg)](https://github.com/lamzi-com/mermaid-java-dsl/actions/workflows/build.yml)
+[![Maven Central](https://img.shields.io/maven-central/v/com.lamzi.doc/mermaid-java-dsl.svg)](https://central.sonatype.com/artifact/com.lamzi.doc/mermaid-java-dsl)
 
 A type-safe Java DSL for generating Mermaid diagrams programmatically.
 
@@ -6,18 +8,29 @@ The library is designed for automation and living documentation.
 Instead of manually assembling Mermaid syntax with strings, it provides a fluent,
 strongly-typed API for building diagrams from Java code.
 
+## Installation
+
+### Maven
+
+```xml
+<dependency>
+    <groupId>com.lamzi.doc</groupId>
+    <artifactId>mermaid-java-dsl</artifactId>
+    <version>0.1.0</version>
+</dependency>
+```
+
 ## Example 
 
 ```java
 ClassDiagram diagram = new ClassDiagram();
 
 diagram.classElement(
-    aClass("BankAccount")
-        .member(attribute("owner").type(type("String")))
-        .member(attribute("balance").type(type("BigDecimal")))
-        .member(method("deposit").parameter(parameter("amount")))
-        .member(method("withdraw"))
-            .parameter(parameter("amount"))
+        aClass("BankAccount") 
+            .member(attribute("owner").type(type("String")))
+            .member(attribute("balance").type(type("BigDecimal")))
+            .member(method("deposit").parameter(parameter("amount")))
+            .member(method("withdraw").parameter(parameter("amount")))
 );
 
 System.out.println(diagram.generate());
@@ -25,18 +38,16 @@ System.out.println(diagram.generate());
 
 ```mermaid
 classDiagram
-
-class BankAccount {
-    +String owner
-    +BigDecimal balance
-    +deposit(amount)
-    +withdraw(amount)
-}
+    class BankAccount {
+        String owner
+        BigDecimal balance
+        deposit(amount)
+        withdraw(amount)
+    }
 ```
 
 ## Status
 
-[![Java CI with Maven](https://github.com/lamzi-com/mermaid-java-dsl/actions/workflows/maven.yml/badge.svg)](https://github.com/lamzi-com/mermaid-java-dsl/actions/workflows/maven.yml)
 
 This project is in an early stage.
 
