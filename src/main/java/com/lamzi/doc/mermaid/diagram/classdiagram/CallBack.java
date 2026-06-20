@@ -3,7 +3,7 @@ package com.lamzi.doc.mermaid.diagram.classdiagram;
 import com.lamzi.doc.mermaid.diagram.DiagramElement;
 import com.lamzi.doc.mermaid.diagram.MermaidWriter;
 
-public class CallBack implements DiagramElement {
+public class CallBack implements ClassDiagramElement {
     private final Type type;
     private final String function;
     private String tooltip;

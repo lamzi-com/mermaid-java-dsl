@@ -3,7 +3,7 @@ package com.lamzi.doc.mermaid.diagram.classdiagram;
 import com.lamzi.doc.mermaid.diagram.DiagramElement;
 import com.lamzi.doc.mermaid.diagram.MermaidWriter;
 
-public class Link implements DiagramElement {
+public class Link implements ClassDiagramElement {
     private final Type type;
     private final String url;
     private String tooltip;

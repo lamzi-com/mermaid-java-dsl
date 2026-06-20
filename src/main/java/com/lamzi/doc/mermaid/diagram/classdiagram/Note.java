@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class Note implements DiagramElement {
+public class Note implements ClassDiagramElement {
     private Type target;
     private String content;
 

@@ -11,7 +11,7 @@ import com.lamzi.doc.mermaid.diagram.classdiagram.relation.ClassRelation;
 /**
  * documentation https://mermaid.js.org/syntax/classDiagram.html
  */
-public class ClassDiagram extends Diagram<ClassDiagramConfiguration> {
+public class ClassDiagram extends Diagram<ClassDiagramConfiguration, ClassDiagramElement> {
     public ClassDiagram(DiagramFrontMatter<ClassDiagramConfiguration> frontMatter) {
         super(frontMatter, "classDiagram");
     }

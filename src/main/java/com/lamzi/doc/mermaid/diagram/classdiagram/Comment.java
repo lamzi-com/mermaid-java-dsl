@@ -3,7 +3,7 @@ package com.lamzi.doc.mermaid.diagram.classdiagram;
 import com.lamzi.doc.mermaid.diagram.DiagramElement;
 import com.lamzi.doc.mermaid.diagram.MermaidWriter;
 
-public class Comment implements DiagramElement, NamespaceElement, ClassElement {
+public class Comment implements ClassDiagramElement, NamespaceElement, ClassElement {
     private String comment;
 
     public Comment(String comment) {

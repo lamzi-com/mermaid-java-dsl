@@ -8,11 +8,10 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+
 public class DiagramConfiguration implements Writable {
 
-    List<Config> configs = new ArrayList<>();
+    protected List<Config> configs = new ArrayList<>();
 
     public DiagramConfiguration layout(LayoutConfig.Layout layout) {
         configs.add(new LayoutConfig(layout));

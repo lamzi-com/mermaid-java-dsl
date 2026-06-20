@@ -3,7 +3,7 @@ package com.lamzi.doc.mermaid.diagram.classdiagram;
 import com.lamzi.doc.mermaid.diagram.DiagramElement;
 import com.lamzi.doc.mermaid.diagram.MermaidWriter;
 
-public class Click implements DiagramElement {
+public class Click implements ClassDiagramElement {
 
     public enum Kind {HREF, CALLBACK}
 
