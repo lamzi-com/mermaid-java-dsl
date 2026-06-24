@@ -1,8 +1,10 @@
 package com.lamzi.doc.mermaid.diagram.flowchart;
 
+import com.lamzi.doc.mermaid.diagram.CssClassDefinition;
 import com.lamzi.doc.mermaid.diagram.Diagram;
 import com.lamzi.doc.mermaid.diagram.DiagramFrontMatter;
 import com.lamzi.doc.mermaid.diagram.MermaidWriter;
+import com.lamzi.doc.mermaid.diagram.StyleDefinition;
 
 /**
  * documentation https://mermaid.js.org/syntax/flowchart.html
@@ -44,6 +46,17 @@ public class FlowchartDiagram extends Diagram<FlowchartDiagramConfiguration, Flo
 
     public FlowchartDiagram addEdge(String from, String to) {
         this.addElement(new Edge(from, to));
+        return this;
+    }
+
+
+    public FlowchartDiagram cssClassDefinition(String className, StyleDefinition styleDefinition) {
+        this.addElement(new CssClassDefinition(className, styleDefinition));
+        return this;
+    }
+
+    public FlowchartDiagram nodeClass(String test, String... nodeIds) {
+        this.addElement(new NodeClass(test, nodeIds));
         return this;
     }
 }

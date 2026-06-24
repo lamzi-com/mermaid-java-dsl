@@ -5,6 +5,7 @@ import com.lamzi.doc.mermaid.diagram.CssClassDefinition;
 import com.lamzi.doc.mermaid.diagram.DiagramFrontMatter;
 import com.lamzi.doc.mermaid.diagram.MermaidException;
 import com.lamzi.doc.mermaid.diagram.MermaidWriter;
+import com.lamzi.doc.mermaid.diagram.StyleDefinition;
 import com.lamzi.doc.mermaid.diagram.classdiagram.inline.InlineCssClassAttachment;
 import com.lamzi.doc.mermaid.diagram.classdiagram.relation.Direction;
 import org.apache.commons.io.FileUtils;
@@ -784,6 +785,4 @@ class ClassDiagramTest extends BaseTest {
                 .classElement(aClass("Duck"));
         assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/hideEmptyMembersBox.mmd"));
     }
-
-
 }

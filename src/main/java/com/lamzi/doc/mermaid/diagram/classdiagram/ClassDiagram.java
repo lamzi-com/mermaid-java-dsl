@@ -3,6 +3,7 @@ package com.lamzi.doc.mermaid.diagram.classdiagram;
 import com.lamzi.doc.mermaid.diagram.CssClassDefinition;
 import com.lamzi.doc.mermaid.diagram.Diagram;
 import com.lamzi.doc.mermaid.diagram.DiagramFrontMatter;
+import com.lamzi.doc.mermaid.diagram.StyleDefinition;
 import com.lamzi.doc.mermaid.diagram.classdiagram.inline.InlineAnnotation;
 import com.lamzi.doc.mermaid.diagram.classdiagram.inline.InlineClassMember;
 import com.lamzi.doc.mermaid.diagram.classdiagram.inline.InlineCssClassAttachment;

@@ -1,5 +1,6 @@
 package com.lamzi.doc.mermaid.diagram.classdiagram;
 
+import com.lamzi.doc.mermaid.diagram.StyleDefinition;
 import com.lamzi.doc.mermaid.diagram.classdiagram.inline.InlineClassAttribute;
 import com.lamzi.doc.mermaid.diagram.classdiagram.inline.InlineClassMethod;
 import com.lamzi.doc.mermaid.diagram.classdiagram.inline.InlineCssClassAttachment;

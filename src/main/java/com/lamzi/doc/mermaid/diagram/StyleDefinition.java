@@ -1,4 +1,4 @@
-package com.lamzi.doc.mermaid.diagram.classdiagram;
+package com.lamzi.doc.mermaid.diagram;
 
 import com.lamzi.doc.mermaid.diagram.MermaidWriter;
 import com.lamzi.doc.mermaid.diagram.Writable;

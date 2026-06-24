@@ -3,6 +3,8 @@ package com.lamzi.doc.mermaid.diagram.flowchart;
 import com.lamzi.doc.mermaid.diagram.BaseTest;
 import com.lamzi.doc.mermaid.diagram.DiagramFrontMatter;
 
+import com.lamzi.doc.mermaid.diagram.StyleDefinition;
+import com.lamzi.doc.mermaid.diagram.classdiagram.Style;
 import org.junit.jupiter.api.Test;
 
 
@@ -600,4 +602,13 @@ class FlowchartDiagramTest extends BaseTest {
     }
 
 
+    @Test
+    public void css() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addNode("id")
+                .nodeClass("test", "id")
+                .cssClassDefinition("test", new StyleDefinition().addAttribute(StyleDefinition.FONT_SIZE, "12pt").addAttribute(StyleDefinition.FILL, "#f9f"));
+        System.out.println(diagram.generate());
+    }
 }
