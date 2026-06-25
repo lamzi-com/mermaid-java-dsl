@@ -5,9 +5,9 @@ import com.lamzi.doc.mermaid.diagram.StyleDefinition;
 
 public class Style implements ClassDiagramElement {
     private final Type type;
-    private final StyleDefinition styleDefinition;
+    private final StyleDefinition<ClassStyleDefinitionAttribute> styleDefinition;
 
-    public Style(Type type, StyleDefinition styleDefinition) {
+    public Style(Type type, StyleDefinition<ClassStyleDefinitionAttribute> styleDefinition) {
         this.type = type;
         this.styleDefinition = styleDefinition;
     }

@@ -1,7 +1,7 @@
 package com.lamzi.doc.mermaid.diagram.classdiagram;
 
-import com.lamzi.doc.mermaid.diagram.DiagramElement;
 import com.lamzi.doc.mermaid.diagram.MermaidWriter;
+import com.lamzi.doc.mermaid.diagram.flowchart.FlowchartDiagramElement;
 import lombok.Getter;
 import lombok.Setter;
 

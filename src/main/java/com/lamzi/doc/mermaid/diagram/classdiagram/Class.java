@@ -1,6 +1,6 @@
 package com.lamzi.doc.mermaid.diagram.classdiagram;
 
-import com.lamzi.doc.mermaid.diagram.DiagramElement;
+import com.lamzi.doc.mermaid.diagram.Comment;
 import com.lamzi.doc.mermaid.diagram.MermaidException;
 import com.lamzi.doc.mermaid.diagram.MermaidWriter;
 

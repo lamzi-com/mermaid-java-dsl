@@ -1,7 +1,6 @@
-package com.lamzi.doc.mermaid.diagram.flowchart;
+package com.lamzi.doc.mermaid.diagram.flowchart.shape;
 
 import com.lamzi.doc.mermaid.diagram.MermaidWriter;
-import com.lamzi.doc.mermaid.diagram.Writable;
 
 public class ClassicNodeShape implements NodeShape {
 

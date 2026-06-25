@@ -4,9 +4,14 @@ import com.lamzi.doc.mermaid.diagram.BaseTest;
 import com.lamzi.doc.mermaid.diagram.DiagramFrontMatter;
 
 import com.lamzi.doc.mermaid.diagram.StyleDefinition;
-import com.lamzi.doc.mermaid.diagram.classdiagram.Style;
+import com.lamzi.doc.mermaid.diagram.flowchart.shape.ClassicNodeShape;
+import com.lamzi.doc.mermaid.diagram.flowchart.shape.ExpandedNodeShape;
+import com.lamzi.doc.mermaid.diagram.flowchart.shape.IconNodeShape;
+import com.lamzi.doc.mermaid.diagram.flowchart.shape.ImageNodeShape;
 import org.junit.jupiter.api.Test;
 
+
+import java.util.List;
 
 import static com.lamzi.doc.mermaid.diagram.flowchart.FlowchartFactory.*;
 import static com.lamzi.doc.mermaid.diagram.flowchart.FlowchartFactory.node;
@@ -57,7 +62,7 @@ class FlowchartDiagramTest extends BaseTest {
                 .direction(FlowchartDirection.LR)
                 .addNode(node("markdown").shape(classicNodeShape("\"`This **is** _Markdown_`\"", ClassicNodeShape.Shape.SQUARE_EDGES)))
                 .addNode(node("newLines").shape(classicNodeShape("\"`Line1\n    Line 2\n    Line 3`\"", ClassicNodeShape.Shape.SQUARE_EDGES)))
-                .addEdge("markdown", "newLines");
+                .addLink("markdown", "newLines");
 
         assertThat(diagram.generate()).isEqualTo(read("/flowchart/markdownFormatting.mmd"));
     }
@@ -66,7 +71,7 @@ class FlowchartDiagramTest extends BaseTest {
     public void directionTD() {
         FlowchartDiagram diagram = new FlowchartDiagram()
                 .direction(FlowchartDirection.TD)
-                .addEdge("Start", "Stop");
+                .addLink("Start", "Stop");
         assertThat(diagram.generate()).isEqualTo(read("/flowchart/directionTD.mmd"));
     }
 
@@ -74,7 +79,7 @@ class FlowchartDiagramTest extends BaseTest {
     public void directionLR() {
         FlowchartDiagram diagram = new FlowchartDiagram()
                 .direction(FlowchartDirection.LR)
-                .addEdge("Start", "Stop");
+                .addLink("Start", "Stop");
         assertThat(diagram.generate()).isEqualTo(read("/flowchart/directionLR.mmd"));
     }
 
@@ -601,14 +606,277 @@ class FlowchartDiagramTest extends BaseTest {
         assertThat(diagram.generate()).isEqualTo(read("/flowchart/taggedProcessNewShapes.mmd"));
     }
 
+    @Test
+    public void nodeShapeIconNodeShape() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.TD)
+                .addNode(node("A")
+                        .shape(iconNodeShape("fa:user")
+                                .form(IconNodeShape.Form.SQUARE)
+                                .label("User Icon")
+                                .position(IconNodeShape.Position.TOP)
+                                .height(60)
+                        )
+                );
+
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/nodeShapeIconNodeShape.mmd"));
+    }
+
 
     @Test
-    public void css() {
+    public void nodeShapeImageNodeShape1() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.TD)
+                .addNode(node("A")
+                        .shape(imageNodeShape("https://example.com/image.png")
+                                .label("Image Label")
+                                .position(ImageNodeShape.Position.TOP)
+                                .width(60)
+                                .height(60)
+                                .constraint(ImageNodeShape.Constraint.OFF)
+                        )
+                );
+
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/nodeShapeImageNodeShape1.mmd"));
+    }
+
+    @Test
+    public void linkArrowHead() {
         FlowchartDiagram diagram = new FlowchartDiagram()
                 .direction(FlowchartDirection.LR)
-                .addNode("id")
-                .nodeClass("test", "id")
-                .cssClassDefinition("test", new StyleDefinition().addAttribute(StyleDefinition.FONT_SIZE, "12pt").addAttribute(StyleDefinition.FILL, "#f9f"));
-        System.out.println(diagram.generate());
+                .addLink("A", "B");
+
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/linkArrowHead.mmd"));
     }
+
+    @Test
+    public void linkOpenLink() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addLink(link(node("A"), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.INVISIBLE, node("B"))));
+
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/linkOpenLink.mmd"));
+    }
+
+    @Test
+    public void linkTextOnLinks() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addLink(link(node("A"), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.INVISIBLE, node("B")).text("This is the text")));
+
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/linkTextOnLinks.mmd"));
+    }
+
+    @Test
+    public void linkWithArrowHeadAndText() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addLink(link(node("A"), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("B")).text("text")));
+
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/linkWithArrowHeadAndText.mmd"));
+    }
+
+    @Test
+    public void linkWithDottedLink() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addLink(link(node("A"), linkTo(LinkTo.Type.DOTTED_LINK, LinkTo.HeadType.ARROW, node("B"))));
+
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/linkWithDottedLink.mmd"));
+    }
+
+    @Test
+    public void linkWithDottedLinkWithText() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addLink(link(node("A"), linkTo(LinkTo.Type.DOTTED_LINK, LinkTo.HeadType.ARROW, node("B")).text("text")));
+
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/linkWithDottedLinkWithText.mmd"));
+    }
+
+    @Test
+    public void linkWithTickLink() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addLink(link(node("A"), linkTo(LinkTo.Type.TICK_LINK, LinkTo.HeadType.ARROW, node("B"))));
+
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/linkWithTickLink.mmd"));
+    }
+
+    @Test
+    public void linkWithTickLinkWithText() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addLink(link(node("A"), linkTo(LinkTo.Type.TICK_LINK, LinkTo.HeadType.ARROW, node("B")).text("text")));
+
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/linkWithTickLinkWithText.mmd"));
+    }
+
+
+    @Test
+    public void linkWithInvisibleLink() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addLink(link(node("A"), linkTo(LinkTo.Type.INVISIBLE_LINK, LinkTo.HeadType.INVISIBLE, node("B"))));
+
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/linkWithInvisibleLink.mmd"));
+    }
+
+    @Test
+    public void linkChainingLinks() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addLink(link(node("A"), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("B")).text("text")
+                        .linkTo(linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("C")).text("text2"))));
+
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/linkChainingLinks.mmd"));
+    }
+
+    @Test
+    public void linkChainingLinksMultipleNodes() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addLink(link(node("a"), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("b"), node("c"))
+                        .linkTo(linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("d")))));
+
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/linkChainingLinksMultipleNodes.mmd"));
+    }
+
+    @Test
+    public void linkChainingLinksMultipleNodes2() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.TB)
+                .addLink(link(List.of(node("A"), node("B")), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("C"), node("D"))));
+
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/linkChainingLinksMultipleNodes2.mmd"));
+    }
+
+    @Test
+    public void linkChainingLinksMultipleNodes2Simple() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.TB)
+                .addLink("A", "C")
+                .addLink("A", "D")
+                .addLink("B", "C")
+                .addLink("B", "D");
+
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/linkChainingLinksMultipleNodes2Simple.mmd"));
+    }
+
+    @Test
+    public void linkId() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addLink(link(node("A"), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("B")).id("e1")));
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/linkId.mmd"));
+    }
+
+    @Test
+    public void linkAnimationAnimate() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addLink(link(node("A"), linkTo(LinkTo.Type.TICK_LINK, LinkTo.HeadType.ARROW, node("B")).id("e1")))
+                .addLinkAnimation(linkAnimation("e1").animate(true));
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/linkAnimationAnimate.mmd"));
+    }
+
+    @Test
+    public void linkAnimationAnimation() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addLink(link(node("A"), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("B")).id("e1")))
+                .addLinkAnimation(linkAnimation("e1").animation(LinkAnimation.Animation.FAST));
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/linkAnimationAnimation.mmd"));
+    }
+
+    @Test
+    public void classDefAnimation() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addLink(link(node("A"), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("B")).id("e1")))
+                .cssClassDefinition("animate", new StyleDefinition<FlowchartStyleDefinitionAttribute>()
+                        .addAttribute(FlowchartStyleDefinitionAttribute.STROKE_DASH_ARRAY, "9,5")
+                        .addAttribute(FlowchartStyleDefinitionAttribute.STROKE_DASHOFFSET, "900")
+                        .addAttribute(FlowchartStyleDefinitionAttribute.ANIMATION, "dash 25s linear infinite")
+                ).nodeClass("animate", "e1");
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/classDefAnimation.mmd"));
+    }
+
+
+    @Test
+    public void linkCircleEdge() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addLink(link(node("A"), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.CIRCLE, node("B"))));
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/linkCircleEdge.mmd"));
+    }
+
+    @Test
+    public void linkCrossEdge() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addLink(link(node("A"), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.CROSS, node("B"))));
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/linkCrossEdge.mmd"));
+    }
+
+    @Test
+    public void linkMultiDirectionalArrows() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addLink(link(node("A"), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.CIRCLE, node("B")).multiDirectional(true)))
+                .addLink(link(node("B"), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("C")).multiDirectional(true)))
+                .addLink(link(node("C"), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.CROSS, node("D")).multiDirectional(true)));
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/linkMultiDirectionalArrows.mmd"));
+    }
+
+    @Test
+    public void linkMinimumLength() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.TD)
+                .addLink(
+                        link(node("A")
+                                        .shape(classicNodeShape("Start", ClassicNodeShape.Shape.SQUARE_EDGES)),
+                                linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("B")
+                                        .shape(classicNodeShape("Is it?", ClassicNodeShape.Shape.RHOMBUS))
+                                )
+                        )
+                )
+                .addLink(
+                        link(node("B"),
+                                linkTo(
+                                        LinkTo.Type.SIMPLE_LINK,
+                                        LinkTo.HeadType.ARROW,
+                                        node("C").shape(classicNodeShape("OK", ClassicNodeShape.Shape.SQUARE_EDGES))
+                                ).text("Yes")
+                        )
+                )
+                .addLink(
+                        link(node("C"), linkTo(
+                                        LinkTo.Type.SIMPLE_LINK,
+                                        LinkTo.HeadType.ARROW,
+                                        node("D").shape(classicNodeShape("Rethink", ClassicNodeShape.Shape.SQUARE_EDGES)
+                                        )
+                                )
+                        )
+                )
+                .addLink(
+                        link(node("D"), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("B")))
+                )
+                .addLink(
+                        link(node("B"),
+                                linkTo(
+                                        LinkTo.Type.SIMPLE_LINK,
+                                        LinkTo.HeadType.ARROW,
+                                        node("E")
+                                                .shape(classicNodeShape("End", ClassicNodeShape.Shape.SQUARE_EDGES))
+                                )
+                                        .length(3)
+                                        .text("No")
+                        )
+                );
+
+
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/linkMinimumLength.mmd"));
+    }
+
 }

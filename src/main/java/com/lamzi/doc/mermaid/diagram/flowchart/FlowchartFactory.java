@@ -1,5 +1,12 @@
 package com.lamzi.doc.mermaid.diagram.flowchart;
 
+import com.lamzi.doc.mermaid.diagram.flowchart.shape.ClassicNodeShape;
+import com.lamzi.doc.mermaid.diagram.flowchart.shape.ExpandedNodeShape;
+import com.lamzi.doc.mermaid.diagram.flowchart.shape.IconNodeShape;
+import com.lamzi.doc.mermaid.diagram.flowchart.shape.ImageNodeShape;
+
+import java.util.List;
+
 public class FlowchartFactory {
     public static Node node(String id) {
         return new Node(id);
@@ -11,5 +18,29 @@ public class FlowchartFactory {
 
     public static ExpandedNodeShape expandedNodeShape(String label, String shape) {
         return new ExpandedNodeShape(label, shape);
+    }
+
+    public static IconNodeShape iconNodeShape(String icon) {
+        return new IconNodeShape(icon);
+    }
+
+    public static ImageNodeShape imageNodeShape(String image) {
+        return new ImageNodeShape(image);
+    }
+
+    public static Link link(Node from, LinkTo to) {
+        return new Link(from, to);
+    }
+
+    public static Link link(List<Node> from, LinkTo to) {
+        return new Link(from, to);
+    }
+
+    public static LinkTo linkTo(LinkTo.Type type, LinkTo.HeadType headType, Node... to) {
+        return new LinkTo(type, headType,to);
+    }
+
+    public static LinkAnimation linkAnimation(String id) {
+        return new LinkAnimation(id);
     }
 }

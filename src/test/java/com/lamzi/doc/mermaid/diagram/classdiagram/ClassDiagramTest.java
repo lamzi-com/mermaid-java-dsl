@@ -679,17 +679,17 @@ class ClassDiagramTest extends BaseTest {
         classDiagram
                 .classElement(aClass("Animal"))
                 .classElement(aClass("Mineral"))
-                .style(style(type("Animal"), new StyleDefinition()
-                        .addAttribute(StyleDefinition.FILL, "#f9f")
-                        .addAttribute(StyleDefinition.STROKE, "#333")
-                        .addAttribute(StyleDefinition.STROKE_WIDTH, "4px")
+                .style(style(type("Animal"), new StyleDefinition<ClassStyleDefinitionAttribute>()
+                        .addAttribute(ClassStyleDefinitionAttribute.FILL, "#f9f")
+                        .addAttribute(ClassStyleDefinitionAttribute.STROKE, "#333")
+                        .addAttribute(ClassStyleDefinitionAttribute.STROKE_WIDTH, "4px")
                 ))
-                .style(style(type("Mineral"), new StyleDefinition()
-                        .addAttribute(StyleDefinition.FILL, "#bbf")
-                        .addAttribute(StyleDefinition.STROKE, "#f66")
-                        .addAttribute(StyleDefinition.STROKE_WIDTH, "2px")
-                        .addAttribute(StyleDefinition.COLOR, "#fff")
-                        .addAttribute(StyleDefinition.STROKE_DASH_ARRAY, "5 5")
+                .style(style(type("Mineral"), new StyleDefinition<ClassStyleDefinitionAttribute>()
+                        .addAttribute(ClassStyleDefinitionAttribute.FILL, "#bbf")
+                        .addAttribute(ClassStyleDefinitionAttribute.STROKE, "#f66")
+                        .addAttribute(ClassStyleDefinitionAttribute.STROKE_WIDTH, "2px")
+                        .addAttribute(ClassStyleDefinitionAttribute.COLOR, "#fff")
+                        .addAttribute(ClassStyleDefinitionAttribute.STROKE_DASH_ARRAY, "5 5")
                 ))
         ;
         assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/stylingANode.mmd"));
@@ -698,10 +698,10 @@ class ClassDiagramTest extends BaseTest {
     @Test
     public void simpleCssClassDefinition() {
         MermaidWriter writer = new MermaidWriter();
-        new CssClassDefinition("className", new StyleDefinition()
-                .addAttribute(StyleDefinition.FILL, "#f9f")
-                .addAttribute(StyleDefinition.STROKE, "#333")
-                .addAttribute(StyleDefinition.STROKE_WIDTH, "4px")
+        new CssClassDefinition("className", new StyleDefinition<ClassStyleDefinitionAttribute>()
+                .addAttribute(ClassStyleDefinitionAttribute.FILL, "#f9f")
+                .addAttribute(ClassStyleDefinitionAttribute.STROKE, "#333")
+                .addAttribute(ClassStyleDefinitionAttribute.STROKE_WIDTH, "4px")
         ).writeTo(writer, 0);
         assertThat(writer.toString().trim()).isEqualTo("classDef className fill:#f9f,stroke:#333,stroke-width:4px;");
     }
@@ -709,8 +709,8 @@ class ClassDiagramTest extends BaseTest {
     @Test
     public void multipleCssClassDefinition() {
         MermaidWriter writer = new MermaidWriter();
-        new CssClassDefinition(List.of("firstClassName", "secondClassName"), new StyleDefinition()
-                .addAttribute(StyleDefinition.FONT_SIZE, "12pt")
+        new CssClassDefinition(List.of("firstClassName", "secondClassName"), new StyleDefinition<ClassStyleDefinitionAttribute>()
+                .addAttribute(ClassStyleDefinitionAttribute.FONT_SIZE, "12pt")
         ).writeTo(writer, 0);
         assertThat(writer.toString().trim()).isEqualTo("classDef firstClassName,secondClassName font-size:12pt;");
     }
@@ -734,7 +734,7 @@ class ClassDiagramTest extends BaseTest {
         ClassDiagram classDiagram = new ClassDiagram();
         classDiagram
                 .classElement(aClass("Animal").cssClass("someclass"))
-                .cssClassDefinition("someclass", new StyleDefinition().addAttribute(StyleDefinition.FILL, "#f96"))
+                .cssClassDefinition("someclass", new StyleDefinition<ClassStyleDefinitionAttribute>().addAttribute(ClassStyleDefinitionAttribute.FILL, "#f96"))
         ;
         assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/attachCssClassToNode.mmd"));
     }
@@ -749,7 +749,7 @@ class ClassDiagramTest extends BaseTest {
                         .member(method("canEat").visibility(Visibility.PRIVATE))
 
                 )
-                .cssClassDefinition("someclass", new StyleDefinition().addAttribute(StyleDefinition.FILL, "#f96"))
+                .cssClassDefinition("someclass", new StyleDefinition<ClassStyleDefinitionAttribute>().addAttribute(ClassStyleDefinitionAttribute.FILL, "#f96"))
         ;
         assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/attachCssClassToNode2.mmd"));
     }
@@ -760,8 +760,8 @@ class ClassDiagramTest extends BaseTest {
         classDiagram
                 .classElement(aClass("Animal").cssClass("pink"))
                 .classElement(aClass("Mineral"))
-                .cssClassDefinition("default", new StyleDefinition().addAttribute(StyleDefinition.FILL, "#f96").addAttribute(StyleDefinition.COLOR, "red"))
-                .cssClassDefinition("pink", new StyleDefinition().addAttribute(StyleDefinition.COLOR, "#f9f"))
+                .cssClassDefinition("default", new StyleDefinition<ClassStyleDefinitionAttribute>().addAttribute(ClassStyleDefinitionAttribute.FILL, "#f96").addAttribute(ClassStyleDefinitionAttribute.COLOR, "red"))
+                .cssClassDefinition("pink", new StyleDefinition().addAttribute(ClassStyleDefinitionAttribute.COLOR, "#f9f"))
         ;
         assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/defaultCssClass.mmd"));
     }

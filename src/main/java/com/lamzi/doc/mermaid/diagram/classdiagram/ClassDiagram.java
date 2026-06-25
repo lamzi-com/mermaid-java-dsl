@@ -1,5 +1,6 @@
 package com.lamzi.doc.mermaid.diagram.classdiagram;
 
+import com.lamzi.doc.mermaid.diagram.Comment;
 import com.lamzi.doc.mermaid.diagram.CssClassDefinition;
 import com.lamzi.doc.mermaid.diagram.Diagram;
 import com.lamzi.doc.mermaid.diagram.DiagramFrontMatter;
@@ -88,8 +89,8 @@ public class ClassDiagram extends Diagram<ClassDiagramConfiguration, ClassDiagra
         return this;
     }
 
-    public ClassDiagram cssClassDefinition(String className, StyleDefinition styleDefinition) {
-        this.addElement(new CssClassDefinition(className, styleDefinition));
+    public ClassDiagram cssClassDefinition(String className, StyleDefinition<ClassStyleDefinitionAttribute> styleDefinition) {
+        this.addElement(new CssClassDefinition<>(className, styleDefinition));
         return this;
     }
 
