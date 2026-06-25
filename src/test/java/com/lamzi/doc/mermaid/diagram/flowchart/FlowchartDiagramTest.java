@@ -8,6 +8,7 @@ import com.lamzi.doc.mermaid.diagram.flowchart.shape.ClassicNodeShape;
 import com.lamzi.doc.mermaid.diagram.flowchart.shape.ExpandedNodeShape;
 import com.lamzi.doc.mermaid.diagram.flowchart.shape.IconNodeShape;
 import com.lamzi.doc.mermaid.diagram.flowchart.shape.ImageNodeShape;
+import com.lamzi.doc.mermaid.diagram.flowchart.shape.NodeShape;
 import org.junit.jupiter.api.Test;
 
 
@@ -877,6 +878,26 @@ class FlowchartDiagramTest extends BaseTest {
 
 
         assertThat(diagram.generate()).isEqualTo(read("/flowchart/linkMinimumLength.mmd"));
+    }
+
+    @Test
+    public void specialCharactersThatBreakSyntax() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addNode(node("id1").shape(classicNodeShape("\"This is the (text) in the box\"", ClassicNodeShape.Shape.SQUARE_EDGES)));
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/specialCharactersThatBreakSyntax.mmd"));
+    }
+
+    @Test
+    public void EntityCodesToEscapeCharacters() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addLink(link(
+                        node("A").shape(classicNodeShape("\"A double quote:#quot;\"", ClassicNodeShape.Shape.SQUARE_EDGES)), linkTo(LinkTo.Type.SIMPLE_LINK,
+                                LinkTo.HeadType.ARROW, node("B").shape(classicNodeShape("\"A dec char:#9829;\"", ClassicNodeShape.Shape.SQUARE_EDGES))
+                        )));
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/EntityCodesToEscapeCharacters.mmd"));
+
     }
 
 }
