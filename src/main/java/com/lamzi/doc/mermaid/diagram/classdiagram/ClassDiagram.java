@@ -79,7 +79,7 @@ public class ClassDiagram extends Diagram<ClassDiagramConfiguration, ClassDiagra
         return this;
     }
 
-    public ClassDiagram click(Click click) {
+    public ClassDiagram click(ClassClick click) {
         this.addElement(click);
         return this;
     }

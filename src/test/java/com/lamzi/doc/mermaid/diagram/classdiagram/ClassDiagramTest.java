@@ -8,11 +8,8 @@ import com.lamzi.doc.mermaid.diagram.MermaidWriter;
 import com.lamzi.doc.mermaid.diagram.StyleDefinition;
 import com.lamzi.doc.mermaid.diagram.classdiagram.inline.InlineCssClassAttachment;
 import com.lamzi.doc.mermaid.diagram.classdiagram.relation.Direction;
-import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static com.lamzi.doc.mermaid.diagram.classdiagram.ClassDiagramFactory.*;
@@ -600,7 +597,7 @@ class ClassDiagramTest extends BaseTest {
                 .classElement(aClass("Shape"))
                 .link(link(type("Shape"), "https://www.github.com").tooltip("This is a tooltip for a link"))
                 .classElement(aClass("Shape2"))
-                .click(click(Click.Kind.HREF, type("Shape2"), "https://www.github.com").tooltip("This is a tooltip for a link"))
+                .click(click(ClassClick.Kind.HREF, type("Shape2"), "https://www.github.com").tooltip("This is a tooltip for a link"))
         ;
 
         assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/link.mmd"));
@@ -613,7 +610,7 @@ class ClassDiagramTest extends BaseTest {
                 .classElement(aClass("Shape"))
                 .callback(callBack(type("Shape"), "callbackFunction").tooltip("This is a tooltip for a callback"))
                 .classElement(aClass("Shape2"))
-                .click(click(Click.Kind.CALLBACK, type("Shape2"), "callbackFunction").tooltip("This is a tooltip for a callback"))
+                .click(click(ClassClick.Kind.CALLBACK, type("Shape2"), "callbackFunction").tooltip("This is a tooltip for a callback"))
         ;
 
         assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/callback.mmd"));
@@ -630,8 +627,8 @@ class ClassDiagramTest extends BaseTest {
                 .link(link(type("Class02"), "https://www.github.com").tooltip("This is a link"))
                 .classElement(aClass("Class03"))
                 .classElement(aClass("Class04"))
-                .click(click(Click.Kind.CALLBACK, type("Class03"), "callbackFunction").tooltip("Callback tooltip"))
-                .click(click(Click.Kind.HREF, type("Class04"), "https://www.github.com").tooltip("This is a link"))
+                .click(click(ClassClick.Kind.CALLBACK, type("Class03"), "callbackFunction").tooltip("Callback tooltip"))
+                .click(click(ClassClick.Kind.HREF, type("Class04"), "https://www.github.com").tooltip("This is a link"))
         ;
         assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/actionExample.mmd"));
     }

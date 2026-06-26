@@ -37,10 +37,22 @@ public class FlowchartFactory {
     }
 
     public static LinkTo linkTo(LinkTo.Type type, LinkTo.HeadType headType, Node... to) {
-        return new LinkTo(type, headType,to);
+        return new LinkTo(type, headType, to);
     }
 
     public static LinkAnimation linkAnimation(String id) {
         return new LinkAnimation(id);
+    }
+
+    public static Subgraph subgraph(String name) {
+        return new Subgraph(name);
+    }
+
+    public static NodeHrefClick hrefClick(String  nodeId, String reference){
+        return new NodeHrefClick(nodeId, reference);
+    }
+
+    public static NodeCallbackClick callbackClick(String  nodeId, String reference){
+        return new NodeCallbackClick(nodeId, reference);
     }
 }

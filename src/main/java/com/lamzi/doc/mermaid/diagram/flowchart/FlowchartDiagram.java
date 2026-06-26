@@ -77,4 +77,14 @@ public class FlowchartDiagram extends Diagram<FlowchartDiagramConfiguration, Flo
         this.addElement(linkAnimation);
         return this;
     }
+
+    public FlowchartDiagram addSubgraph(Subgraph subgraph) {
+        this.addElement(subgraph);
+        return this;
+    }
+
+    public FlowchartDiagram click(NodeClick<?> click) {
+        this.addElement(click);
+        return this;
+    }
 }

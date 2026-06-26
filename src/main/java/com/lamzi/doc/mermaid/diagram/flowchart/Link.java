@@ -5,7 +5,7 @@ import com.lamzi.doc.mermaid.diagram.MermaidWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Link implements FlowchartDiagramElement {
+public class Link implements FlowchartDiagramElement, SubgraphElement{
     private final List<Node> from = new ArrayList<>();
     private final LinkTo to;
 

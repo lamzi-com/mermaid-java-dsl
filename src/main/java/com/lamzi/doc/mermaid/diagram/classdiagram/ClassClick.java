@@ -1,9 +1,8 @@
 package com.lamzi.doc.mermaid.diagram.classdiagram;
 
-import com.lamzi.doc.mermaid.diagram.DiagramElement;
 import com.lamzi.doc.mermaid.diagram.MermaidWriter;
 
-public class Click implements ClassDiagramElement {
+public class ClassClick implements ClassDiagramElement {
 
     public enum Kind {HREF, CALLBACK}
 
@@ -12,13 +11,13 @@ public class Click implements ClassDiagramElement {
     private final String reference;
     private String tooltip;
 
-    public Click(Kind kind, Type type, String reference) {
+    public ClassClick(Kind kind, Type type, String reference) {
         this.kind = kind;
         this.type = type;
         this.reference = reference;
     }
 
-    public Click tooltip(String tooltip) {
+    public ClassClick tooltip(String tooltip) {
         this.tooltip = tooltip;
         return this;
     }

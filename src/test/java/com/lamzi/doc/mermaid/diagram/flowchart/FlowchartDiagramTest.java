@@ -8,13 +8,13 @@ import com.lamzi.doc.mermaid.diagram.flowchart.shape.ClassicNodeShape;
 import com.lamzi.doc.mermaid.diagram.flowchart.shape.ExpandedNodeShape;
 import com.lamzi.doc.mermaid.diagram.flowchart.shape.IconNodeShape;
 import com.lamzi.doc.mermaid.diagram.flowchart.shape.ImageNodeShape;
-import com.lamzi.doc.mermaid.diagram.flowchart.shape.NodeShape;
 import org.junit.jupiter.api.Test;
 
 
 import java.util.List;
 
 import static com.lamzi.doc.mermaid.diagram.flowchart.FlowchartFactory.*;
+import static com.lamzi.doc.mermaid.diagram.flowchart.FlowchartFactory.hrefClick;
 import static com.lamzi.doc.mermaid.diagram.flowchart.FlowchartFactory.node;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -889,15 +889,154 @@ class FlowchartDiagramTest extends BaseTest {
     }
 
     @Test
-    public void EntityCodesToEscapeCharacters() {
+    public void entityCodesToEscapeCharacters() {
         FlowchartDiagram diagram = new FlowchartDiagram()
                 .direction(FlowchartDirection.LR)
                 .addLink(link(
                         node("A").shape(classicNodeShape("\"A double quote:#quot;\"", ClassicNodeShape.Shape.SQUARE_EDGES)), linkTo(LinkTo.Type.SIMPLE_LINK,
                                 LinkTo.HeadType.ARROW, node("B").shape(classicNodeShape("\"A dec char:#9829;\"", ClassicNodeShape.Shape.SQUARE_EDGES))
                         )));
-        assertThat(diagram.generate()).isEqualTo(read("/flowchart/EntityCodesToEscapeCharacters.mmd"));
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/entityCodesToEscapeCharacters.mmd"));
+    }
 
+    @Test
+    public void subgaphs() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.TB)
+                .addLink("c1", "a2")
+                .addSubgraph(subgraph("one")
+                        .addLink("a1", "a2")
+                )
+                .addSubgraph(subgraph("two")
+                        .addLink("b1", "b2")
+                )
+                .addSubgraph(subgraph("three")
+                        .addLink("c1", "c2")
+                );
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/subgaphs.mmd"));
+    }
+
+    @Test
+    public void subgaphsExplicitId() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.TB)
+                .addLink("c1", "a2")
+                .addSubgraph(subgraph("ide1")
+                        .label("one")
+                        .addLink("a1", "a2")
+                );
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/subgaphsExplicitId.mmd"));
+    }
+
+    @Test
+    public void subgaphsLinkBetweenSubgraphs() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.TB)
+                .addLink("c1", "a2")
+                .addSubgraph(subgraph("one")
+                        .addLink("a1", "a2")
+                )
+                .addSubgraph(subgraph("two")
+                        .addLink("b1", "b2")
+                )
+                .addSubgraph(subgraph("three")
+                        .addLink("c1", "c2")
+                )
+                .addLink("one", "two")
+                .addLink("three", "two")
+                .addLink("two", "c2");
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/subgaphsLinkBetweenSubgraphs.mmd"));
+    }
+
+    @Test
+    public void subgaphsDirection() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addSubgraph(subgraph("subgraph1")
+                        .direction(FlowchartDirection.TB)
+                        .addLink(link(
+                                node("top1").shape(classicNodeShape("top", ClassicNodeShape.Shape.SQUARE_EDGES)),
+                                linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("bottom1").shape(classicNodeShape("bottom", ClassicNodeShape.Shape.SQUARE_EDGES)))
+                        ))
+                )
+                .addSubgraph(subgraph("subgraph2")
+                        .direction(FlowchartDirection.TB)
+                        .addLink(link(
+                                node("top2").shape(classicNodeShape("top", ClassicNodeShape.Shape.SQUARE_EDGES)),
+                                linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("bottom2").shape(classicNodeShape("bottom", ClassicNodeShape.Shape.SQUARE_EDGES)))
+                        ))
+                )
+                .addComment("^ These subgraphs are identical, except for the links to them:")
+                .addComment("Link *to* subgraph1: subgraph1 direction is maintained")
+                .addLink("outside", "subgraph1")
+                .addComment("Link *within* subgraph2:")
+                .addComment("subgraph2 inherits the direction of the top-level graph (LR)")
+                .addLink(link(node("outside"), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("top2")).length(2)));
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/subgaphsDirection.mmd"));
+    }
+
+    @Test
+    public void subgaphsMarkdownStrings() {
+        FlowchartDiagramConfiguration config = new FlowchartDiagramConfiguration().htmlLabels(false);
+        DiagramFrontMatter<FlowchartDiagramConfiguration> frontMatter = new DiagramFrontMatter<>(config);
+        FlowchartDiagram diagram = new FlowchartDiagram(frontMatter)
+                .direction(FlowchartDirection.LR)
+                .addSubgraph(subgraph("\"One\"")
+                        .addLink(link(
+                                node("a").shape(classicNodeShape("\"`The **cat**\n        in the hat`\"", ClassicNodeShape.Shape.ROUNDED_EDGES)),
+                                linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("b").shape(classicNodeShape("\"`The **dog** in the hog`\"", ClassicNodeShape.Shape.HEXAGON)))
+                                        .text("\"edge label\"")
+                        ))
+                )
+                .addSubgraph(subgraph("\"`**Two**`\"")
+                        .addLink(link(
+                                node("c").shape(classicNodeShape("\"`The **cat**\n        in the hat`\"", ClassicNodeShape.Shape.ROUNDED_EDGES)),
+                                linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("d").shape(classicNodeShape("\"The dog in the hog\"", ClassicNodeShape.Shape.ROUNDED_EDGES)))
+                                        .text("\"`Bold **edge label**`\"")
+                        ))
+                );
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/subgaphsMarkdownStrings.mmd"));
+    }
+
+    @Test
+    public void interactionCall() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addLink("A", "B")
+                .addLink("B", "C")
+                .addLink("C", "D")
+                .click(callbackClick("A", "callback").tooltip("Tooltip for a callback"))
+                .click(hrefClick("B", "https://www.github.com").tooltip("This is a tooltip for a link"))
+                .click(callbackClick("C", "callback").displayKind().tooltip("Tooltip for a callback"))
+                .click(hrefClick("D", "https://www.github.com").displayKind().tooltip("This is a tooltip for a link"));
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/interactionCall.mmd"));
+    }
+
+    @Test
+    public void interactionLinkTarget() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addLink("A", "B")
+                .addLink("B", "C")
+                .addLink("C", "D")
+                .addLink("D", "E")
+                .click(hrefClick("A", "https://www.github.com").target("_blank"))
+                .click(hrefClick("B", "https://www.github.com").target("_blank").tooltip("Open this in a new tab"))
+                .click(hrefClick("C", "https://www.github.com").displayKind().target("_blank"))
+                .click(hrefClick("D", "https://www.github.com").displayKind().target("_blank").tooltip("Open this in a new tab"));
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/interactionLinkTarget.mmd"));
+    }
+
+    @Test
+    public void comment() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addComment("this is a comment A -- text --> B{node}")
+                .addLink(link(node("A"),
+                        linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("B")
+                                .linkTo(linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("C")).text("text2"))).text("text"))
+                );
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/comment.mmd"));
     }
 
 }

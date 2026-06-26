@@ -89,8 +89,8 @@ public class ClassDiagramFactory {
         return new CallBack(type, function);
     }
 
-    public static Click click(Click.Kind kind, Type type, String reference) {
-        return new Click(kind, type, reference);
+    public static ClassClick click(ClassClick.Kind kind, Type type, String reference) {
+        return new ClassClick(kind, type, reference);
     }
 
     public static Style style(Type type, StyleDefinition styleDefinition) {
