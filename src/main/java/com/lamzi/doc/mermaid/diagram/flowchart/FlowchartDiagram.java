@@ -73,8 +73,8 @@ public class FlowchartDiagram extends Diagram<FlowchartDiagramConfiguration, Flo
         return this;
     }
 
-    public FlowchartDiagram addLinkAnimation(LinkAnimation linkAnimation) {
-        this.addElement(linkAnimation);
+    public FlowchartDiagram addEdgeIdStyle(EdgeIdStyle edgeIdStyle) {
+        this.addElement(edgeIdStyle);
         return this;
     }
 
@@ -85,6 +85,11 @@ public class FlowchartDiagram extends Diagram<FlowchartDiagramConfiguration, Flo
 
     public FlowchartDiagram click(NodeClick<?> click) {
         this.addElement(click);
+        return this;
+    }
+
+    public FlowchartDiagram linkStyle(StyleDefinition<FlowchartStyleDefinitionAttribute> styleDefinition, Integer... linkNumbers) {
+        this.addElement(new LinkStyle(styleDefinition, linkNumbers));
         return this;
     }
 }

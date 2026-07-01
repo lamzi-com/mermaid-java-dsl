@@ -777,7 +777,7 @@ class FlowchartDiagramTest extends BaseTest {
         FlowchartDiagram diagram = new FlowchartDiagram()
                 .direction(FlowchartDirection.LR)
                 .addLink(link(node("A"), linkTo(LinkTo.Type.TICK_LINK, LinkTo.HeadType.ARROW, node("B")).id("e1")))
-                .addLinkAnimation(linkAnimation("e1").animate(true));
+                .addEdgeIdStyle(edgeIdStyle("e1").animate(true));
         assertThat(diagram.generate()).isEqualTo(read("/flowchart/linkAnimationAnimate.mmd"));
     }
 
@@ -786,7 +786,7 @@ class FlowchartDiagramTest extends BaseTest {
         FlowchartDiagram diagram = new FlowchartDiagram()
                 .direction(FlowchartDirection.LR)
                 .addLink(link(node("A"), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("B")).id("e1")))
-                .addLinkAnimation(linkAnimation("e1").animation(LinkAnimation.Animation.FAST));
+                .addEdgeIdStyle(edgeIdStyle("e1").animation(EdgeIdStyle.Animation.FAST));
         assertThat(diagram.generate()).isEqualTo(read("/flowchart/linkAnimationAnimation.mmd"));
     }
 
@@ -1038,5 +1038,80 @@ class FlowchartDiagramTest extends BaseTest {
                 );
         assertThat(diagram.generate()).isEqualTo(read("/flowchart/comment.mmd"));
     }
+
+    @Test
+    public void linkStyle() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.TD)
+                .addLink("A", "B")
+                .addLink("B", "C")
+                .addLink("C", "D")
+                .addLink("D", "E")
+                .linkStyle(new StyleDefinition<FlowchartStyleDefinitionAttribute>()
+                                .addAttribute(FlowchartStyleDefinitionAttribute.STROKE, "#ff3")
+                                .addAttribute(FlowchartStyleDefinitionAttribute.STROKE_WIDTH, "4px")
+                                .addAttribute(FlowchartStyleDefinitionAttribute.COLOR, "red"),
+                        3
+                );
+
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/linkStyle.mmd"));
+    }
+
+    @Test
+    public void linkStyleMultipleLinks() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.TD)
+                .addLink("A", "B")
+                .addLink("B", "C")
+                .addLink("C", "D")
+                .addLink("D", "E")
+                .addLink("E", "F")
+                .addLink("F", "G")
+                .addLink("G", "H")
+                .addLink("H", "I")
+                .linkStyle(new StyleDefinition<FlowchartStyleDefinitionAttribute>()
+                                .addAttribute(FlowchartStyleDefinitionAttribute.COLOR, "blue"),
+                        1,2,7
+                );
+
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/linkStyleMultipleLinks.mmd"));
+    }
+
+    @Test
+    public void curveConfig() {
+        FlowchartDiagramConfiguration config = new FlowchartDiagramConfiguration().curve("stepBefore");
+        DiagramFrontMatter<FlowchartDiagramConfiguration> frontmatter = new DiagramFrontMatter<>(config);
+        FlowchartDiagram diagram = new FlowchartDiagram(frontmatter)
+                .direction(FlowchartDirection.TD)
+                .addLink("A", "B");
+
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/curveConfig.mmd"));
+    }
+
+
+    @Test
+    public void curveStyleById() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addLink(link(node("A"), linkTo(LinkTo.Type.TICK_LINK, LinkTo.HeadType.ARROW, node("B")).id("e1")))
+                .addLink(link(node("A"), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("C")).id("e2")))
+                .addEdgeIdStyle(edgeIdStyle("e1").curve("linear"))
+                .addEdgeIdStyle(edgeIdStyle("e2").curve("natural"));
+
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/curveStyleById.mmd"));
+    }
+
+    @Test
+    public void stylingANode() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addLink(link(node("A"), linkTo(LinkTo.Type.TICK_LINK, LinkTo.HeadType.ARROW, node("B")).id("e1")))
+                .addLink(link(node("A"), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("C")).id("e2")))
+                .addEdgeIdStyle(edgeIdStyle("e1").curve("linear"))
+                .addEdgeIdStyle(edgeIdStyle("e2").curve("natural"));
+
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/stylingANode.mmd"));
+    }
+
 
 }

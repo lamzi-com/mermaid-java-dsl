@@ -40,8 +40,8 @@ public class FlowchartFactory {
         return new LinkTo(type, headType, to);
     }
 
-    public static LinkAnimation linkAnimation(String id) {
-        return new LinkAnimation(id);
+    public static EdgeIdStyle edgeIdStyle(String id) {
+        return new EdgeIdStyle(id);
     }
 
     public static Subgraph subgraph(String name) {
