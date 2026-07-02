@@ -3,8 +3,8 @@ package com.lamzi.doc.mermaid.diagram.classdiagram;
 import com.lamzi.doc.mermaid.diagram.MermaidWriter;
 
 public class Type {
-    String name;
-    Type genericType;
+    private final String name;
+    private Type genericType;
 
     Type(String name) {
         this.name = name;

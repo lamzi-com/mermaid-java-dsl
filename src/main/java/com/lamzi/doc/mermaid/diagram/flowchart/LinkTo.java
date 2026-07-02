@@ -7,8 +7,8 @@ import com.lamzi.doc.mermaid.diagram.Writable;
 public class LinkTo implements Writable {
     private final Type type;
     private final HeadType headType;
-    Node[] to;
-    boolean biDirectional;
+    private final Node[] to;
+    private boolean biDirectional;
     private String text;
     private LinkTo nextLink;
     private String id;

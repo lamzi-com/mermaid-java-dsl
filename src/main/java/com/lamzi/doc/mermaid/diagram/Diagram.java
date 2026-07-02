@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Diagram<T extends DiagramConfiguration, E extends DiagramElement> {
-    public DiagramFrontMatter<T> frontMatter;
-    String diagramName;
-    List<E> elements = new ArrayList<>();
+    private final DiagramFrontMatter<T> frontMatter;
+    private final String diagramName;
+    private final List<E> elements = new ArrayList<>();
 
     public Diagram(DiagramFrontMatter<T> frontMatter, String diagramName) {
         this.frontMatter = frontMatter;

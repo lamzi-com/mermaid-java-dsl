@@ -50,11 +50,11 @@ public class ClassRelation implements ClassDiagramElement {
             writer.write(" ");
         }
         if (direction.equals(Direction.LEFT) || direction.equals(Direction.BOTH)) {
-            writer.write(relationType.left);
+            writer.write(relationType.left());
         }
-        writer.write(relationType.link);
+        writer.write(relationType.link());
         if (direction.equals(Direction.RIGHT) || direction.equals(Direction.BOTH)) {
-            writer.write(relationType.right);
+            writer.write(relationType.right());
         }
         if (rightCardinality != null) {
             writer.write(" ");

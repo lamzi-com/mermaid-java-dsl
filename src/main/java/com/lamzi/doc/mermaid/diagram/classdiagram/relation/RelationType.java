@@ -11,13 +11,26 @@ public class RelationType {
     public static RelationType DEPENDENCY = new RelationType("<", "..", ">");
     public static RelationType REALIZATION = new RelationType("<|", "..", "|>");
     public static RelationType DASHED_LINK = new RelationType("", "..", "");
-    public String left;
-    public String right;
-    public String link;
+
+    private final String left;
+    private final String right;
+    private final String link;
 
     RelationType(String left, String link, String right) {
         this.left = left;
         this.right = right;
         this.link = link;
+    }
+
+    public String left(){
+        return left;
+    }
+
+    public String right(){
+        return right;
+    }
+
+    public String link(){
+        return link;
     }
 }

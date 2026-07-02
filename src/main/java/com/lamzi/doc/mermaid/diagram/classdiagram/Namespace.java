@@ -11,7 +11,7 @@ import java.util.List;
 public class Namespace implements ClassDiagramElement, NamespaceElement {
 
     private final String name;
-    List<NamespaceElement> elements = new ArrayList<>();
+    private final List<NamespaceElement> elements = new ArrayList<>();
     private String label;
 
     public Namespace(String name) {

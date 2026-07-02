@@ -3,7 +3,7 @@ package com.lamzi.doc.mermaid.diagram.classdiagram;
 import com.lamzi.doc.mermaid.diagram.MermaidWriter;
 
 public class ClassName {
-    public Type name;
+    private final Type name;
 
     public ClassName(Type name) {
         this.name = name;
