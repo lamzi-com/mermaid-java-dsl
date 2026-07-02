@@ -1,6 +1,6 @@
 package com.lamzi.doc.mermaid.diagram.classdiagram;
 
-import com.lamzi.doc.mermaid.diagram.DiagramElement;
+import com.lamzi.doc.mermaid.diagram.Comment;
 import com.lamzi.doc.mermaid.diagram.MermaidException;
 import com.lamzi.doc.mermaid.diagram.MermaidWriter;
 
@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Namespace implements DiagramElement, NamespaceElement {
+public class Namespace implements ClassDiagramElement, NamespaceElement {
 
     private final String name;
-    List<NamespaceElement> elements = new ArrayList<>();
+    private final List<NamespaceElement> elements = new ArrayList<>();
     private String label;
 
     public Namespace(String name) {

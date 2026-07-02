@@ -1,23 +1,22 @@
 package com.lamzi.doc.mermaid.diagram.classdiagram;
 
+import com.lamzi.doc.mermaid.diagram.BaseTest;
 import com.lamzi.doc.mermaid.diagram.CssClassDefinition;
 import com.lamzi.doc.mermaid.diagram.DiagramFrontMatter;
 import com.lamzi.doc.mermaid.diagram.MermaidException;
 import com.lamzi.doc.mermaid.diagram.MermaidWriter;
+import com.lamzi.doc.mermaid.diagram.StyleDefinition;
 import com.lamzi.doc.mermaid.diagram.classdiagram.inline.InlineCssClassAttachment;
 import com.lamzi.doc.mermaid.diagram.classdiagram.relation.Direction;
-import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static com.lamzi.doc.mermaid.diagram.classdiagram.ClassDiagramFactory.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-class ClassDiagramTest {
+class ClassDiagramTest extends BaseTest {
 
     @Test
     public void animalExample() {
@@ -48,7 +47,7 @@ class ClassDiagramTest {
                         .member(method("run").visibility(Visibility.PUBLIC))
                 );
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/animalExample.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/animalExample.mmd"));
     }
 
 
@@ -65,7 +64,7 @@ class ClassDiagramTest {
                         .parameter(parameter("amount")))
                 .classMember(method(type("BankAccount"), "withdrawal").visibility(Visibility.PUBLIC)
                         .parameter(parameter("amount")));
-        assertThat(classDiagram.generate()).isEqualTo(read("/banqueExample.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/banqueExample.mmd"));
     }
 
     @Test
@@ -75,7 +74,7 @@ class ClassDiagramTest {
                 .classElement(aClass("Animal"))
                 .relation(inheritance(type("Vehicle"), type("Car")));
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/defineAClass.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/defineAClass.mmd"));
     }
 
     @Test
@@ -86,7 +85,7 @@ class ClassDiagramTest {
                 .classElement(aClass("Car").label("Car with *! symbols"))
                 .relation(association(type("Animal"), type("Car")));
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/classLabel.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/classLabel.mmd"));
     }
 
     @Test
@@ -97,7 +96,7 @@ class ClassDiagramTest {
                 .classElement(aClass("Car Class"))
                 .relation(association(type("Animal Class!"), type("Car Class")));
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/escapeLabel.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/escapeLabel.mmd"));
     }
 
     @Test
@@ -113,7 +112,7 @@ class ClassDiagramTest {
                 .classMember(method(type("BankAccount"), "withdrawal").visibility(Visibility.PUBLIC)
                         .parameter(parameter("amount")));
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/associateMemberUsingColon.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/associateMemberUsingColon.mmd"));
     }
 
     @Test
@@ -127,7 +126,7 @@ class ClassDiagramTest {
                         .member(method("withdrawal").visibility(Visibility.PUBLIC).parameter(parameter("amount")))
                 );
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/associateMemberUsingBrackets.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/associateMemberUsingBrackets.mmd"));
     }
 
     @Test
@@ -141,7 +140,7 @@ class ClassDiagramTest {
                         .member(method("withdrawal").visibility(Visibility.PUBLIC).parameter(parameter("amount")).returnType(type("int")))
                 );
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/returnType.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/returnType.mmd"));
     }
 
     @Test
@@ -171,7 +170,7 @@ class ClassDiagramTest {
                         .returnType(type("List").genericType(type("List").genericType(type("int"))))
                 );
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/genericTypes.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/genericTypes.mmd"));
     }
 
 
@@ -200,7 +199,7 @@ class ClassDiagramTest {
                         .member(attribute("packageClassAttribute").visibility(Visibility.PACKAGE))
                 );
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/visibility.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/visibility.mmd"));
 
     }
 
@@ -224,7 +223,7 @@ class ClassDiagramTest {
                         .member(method("someStaticAbstractMethodWithReturn").returnType(type("int")).markStatic().markAbstract())
                 );
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/abstractOrStaticMethod.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/abstractOrStaticMethod.mmd"));
 
     }
 
@@ -244,7 +243,7 @@ class ClassDiagramTest {
                 .relation(dashedLink(type("classO"), type("classP")))
         ;
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/relationship.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/relationship.mmd"));
 
     }
 
@@ -263,7 +262,7 @@ class ClassDiagramTest {
                 .relation(dashedLink(type("classO"), type("classP")).label("Link(Dashed)"))
         ;
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/relationshipLabel.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/relationshipLabel.mmd"));
     }
 
     @Test
@@ -276,7 +275,7 @@ class ClassDiagramTest {
                 .relation(aggregation(type("classE"), type("classF")).label("aggregation"))
         ;
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/relationshipLabel2.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/relationshipLabel2.mmd"));
     }
 
     @Test
@@ -286,7 +285,7 @@ class ClassDiagramTest {
         classDiagram
                 .relation(inheritance(type("Animal"), type("Zebra")).direction(Direction.BOTH));
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/twoWayRelation.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/twoWayRelation.mmd"));
 
     }
 
@@ -297,7 +296,7 @@ class ClassDiagramTest {
         classDiagram
                 .relation(lolipop(type("bar"), type("foo")));
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/lolipopRelation.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/lolipopRelation.mmd"));
 
     }
 
@@ -314,7 +313,7 @@ class ClassDiagramTest {
                 .relation(lolipop(type("Class02"), type("bar")).direction(Direction.RIGHT))
                 .relation(lolipop(type("foo"), type("Class01")).direction(Direction.LEFT));
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/lolipopRelation2.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/lolipopRelation2.mmd"));
 
     }
 
@@ -331,7 +330,7 @@ class ClassDiagramTest {
                         )
                 );
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/namespace.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/namespace.mmd"));
 
     }
 
@@ -348,7 +347,7 @@ class ClassDiagramTest {
                         )
                 );
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/namespaceLabel.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/namespaceLabel.mmd"));
 
     }
 
@@ -376,7 +375,7 @@ class ClassDiagramTest {
                 .relation(association(type("TechLead"), type("Designer")).label("leads"))
         ;
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/nestedNamespacesDotNotation.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/nestedNamespacesDotNotation.mmd"));
     }
 
     @Test
@@ -405,7 +404,7 @@ class ClassDiagramTest {
                 .relation(association(type("Gateway"), type("Repository")).label("delegates"))
         ;
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/nestedNamespacesSyntacticNesting.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/nestedNamespacesSyntacticNesting.mmd"));
     }
 
     @Test
@@ -434,7 +433,7 @@ class ClassDiagramTest {
                 .relation(association(type("CEO"), type("Designer")).label("oversees"))
         ;
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/hierarchicalNamespaces.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/hierarchicalNamespaces.mmd"));
     }
 
 
@@ -447,7 +446,7 @@ class ClassDiagramTest {
                 .relation(association(type("Student"), type("Course")).leftCardinality("1").rightCardinality("1..*"))
                 .relation(association(type("Galaxy"), type("Star")).label("Contains").rightCardinality("many"));
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/cardinality.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/cardinality.mmd"));
 
     }
 
@@ -459,7 +458,7 @@ class ClassDiagramTest {
         classDiagram
                 .classElement(aClass("Shape").inlineAnnotation("interface"));
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/inlineAnnotationWithClassDefinition.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/inlineAnnotationWithClassDefinition.mmd"));
     }
 
     @Test
@@ -495,7 +494,7 @@ class ClassDiagramTest {
                 .classMember(attribute(type("Shape"), "noOfVertices"))
                 .classMember(method(type("Shape"), "draw"));
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/inlineAnnotation.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/inlineAnnotation.mmd"));
     }
 
     @Test
@@ -517,7 +516,7 @@ class ClassDiagramTest {
                         .member(attribute("BLACK"))
                 );
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/classAnnotation.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/classAnnotation.mmd"));
     }
 
     @Test
@@ -532,7 +531,7 @@ class ClassDiagramTest {
                         .member(method("draw"))
                 );
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/comments.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/comments.mmd"));
     }
 
     @Test
@@ -551,7 +550,7 @@ class ClassDiagramTest {
                         .comment("Comment at the namespace level")
                 );
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/comments2.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/comments2.mmd"));
     }
 
     @Test
@@ -576,7 +575,7 @@ class ClassDiagramTest {
 
         ;
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/direction.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/direction.mmd"));
     }
 
     @Test
@@ -587,7 +586,7 @@ class ClassDiagramTest {
                 .note(type("MyClass"), "This is a note for a class")
                 .classElement(aClass("MyClass"));
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/notes.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/notes.mmd"));
 
     }
 
@@ -598,10 +597,10 @@ class ClassDiagramTest {
                 .classElement(aClass("Shape"))
                 .link(link(type("Shape"), "https://www.github.com").tooltip("This is a tooltip for a link"))
                 .classElement(aClass("Shape2"))
-                .click(click(Click.Kind.HREF, type("Shape2"), "https://www.github.com").tooltip("This is a tooltip for a link"))
+                .click(click(ClassClick.Kind.HREF, type("Shape2"), "https://www.github.com").tooltip("This is a tooltip for a link"))
         ;
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/link.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/link.mmd"));
     }
 
     @Test
@@ -611,10 +610,10 @@ class ClassDiagramTest {
                 .classElement(aClass("Shape"))
                 .callback(callBack(type("Shape"), "callbackFunction").tooltip("This is a tooltip for a callback"))
                 .classElement(aClass("Shape2"))
-                .click(click(Click.Kind.CALLBACK, type("Shape2"), "callbackFunction").tooltip("This is a tooltip for a callback"))
+                .click(click(ClassClick.Kind.CALLBACK, type("Shape2"), "callbackFunction").tooltip("This is a tooltip for a callback"))
         ;
 
-        assertThat(classDiagram.generate()).isEqualTo(read("/callback.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/callback.mmd"));
     }
 
 
@@ -628,10 +627,10 @@ class ClassDiagramTest {
                 .link(link(type("Class02"), "https://www.github.com").tooltip("This is a link"))
                 .classElement(aClass("Class03"))
                 .classElement(aClass("Class04"))
-                .click(click(Click.Kind.CALLBACK, type("Class03"), "callbackFunction").tooltip("Callback tooltip"))
-                .click(click(Click.Kind.HREF, type("Class04"), "https://www.github.com").tooltip("This is a link"))
+                .click(click(ClassClick.Kind.CALLBACK, type("Class03"), "callbackFunction").tooltip("Callback tooltip"))
+                .click(click(ClassClick.Kind.HREF, type("Class04"), "https://www.github.com").tooltip("This is a link"))
         ;
-        assertThat(classDiagram.generate()).isEqualTo(read("/actionExample.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/actionExample.mmd"));
     }
 
     @Test
@@ -667,7 +666,7 @@ class ClassDiagramTest {
                 .link(link(zebra, "https://www.github.com").tooltip("This is a link"))
 
         ;
-        assertThat(classDiagram.generate()).isEqualTo(read("/actionExample2.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/actionExample2.mmd"));
     }
 
 
@@ -677,29 +676,29 @@ class ClassDiagramTest {
         classDiagram
                 .classElement(aClass("Animal"))
                 .classElement(aClass("Mineral"))
-                .style(style(type("Animal"), new StyleDefinition()
-                        .addAttribute(StyleDefinition.FILL, "#f9f")
-                        .addAttribute(StyleDefinition.STROKE, "#333")
-                        .addAttribute(StyleDefinition.STROKE_WIDTH, "4px")
+                .style(style("Animal", new StyleDefinition<ClassStyleDefinitionAttribute>()
+                        .addAttribute(ClassStyleDefinitionAttribute.FILL, "#f9f")
+                        .addAttribute(ClassStyleDefinitionAttribute.STROKE, "#333")
+                        .addAttribute(ClassStyleDefinitionAttribute.STROKE_WIDTH, "4px")
                 ))
-                .style(style(type("Mineral"), new StyleDefinition()
-                        .addAttribute(StyleDefinition.FILL, "#bbf")
-                        .addAttribute(StyleDefinition.STROKE, "#f66")
-                        .addAttribute(StyleDefinition.STROKE_WIDTH, "2px")
-                        .addAttribute(StyleDefinition.COLOR, "#fff")
-                        .addAttribute(StyleDefinition.STROKE_DASH_ARRAY, "5 5")
+                .style(style("Mineral", new StyleDefinition<ClassStyleDefinitionAttribute>()
+                        .addAttribute(ClassStyleDefinitionAttribute.FILL, "#bbf")
+                        .addAttribute(ClassStyleDefinitionAttribute.STROKE, "#f66")
+                        .addAttribute(ClassStyleDefinitionAttribute.STROKE_WIDTH, "2px")
+                        .addAttribute(ClassStyleDefinitionAttribute.COLOR, "#fff")
+                        .addAttribute(ClassStyleDefinitionAttribute.STROKE_DASH_ARRAY, "5 5")
                 ))
         ;
-        assertThat(classDiagram.generate()).isEqualTo(read("/stylingANode.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/stylingANode.mmd"));
     }
 
     @Test
     public void simpleCssClassDefinition() {
         MermaidWriter writer = new MermaidWriter();
-        new CssClassDefinition("className", new StyleDefinition()
-                .addAttribute(StyleDefinition.FILL, "#f9f")
-                .addAttribute(StyleDefinition.STROKE, "#333")
-                .addAttribute(StyleDefinition.STROKE_WIDTH, "4px")
+        new CssClassDefinition("className", new StyleDefinition<ClassStyleDefinitionAttribute>()
+                .addAttribute(ClassStyleDefinitionAttribute.FILL, "#f9f")
+                .addAttribute(ClassStyleDefinitionAttribute.STROKE, "#333")
+                .addAttribute(ClassStyleDefinitionAttribute.STROKE_WIDTH, "4px")
         ).writeTo(writer, 0);
         assertThat(writer.toString().trim()).isEqualTo("classDef className fill:#f9f,stroke:#333,stroke-width:4px;");
     }
@@ -707,8 +706,8 @@ class ClassDiagramTest {
     @Test
     public void multipleCssClassDefinition() {
         MermaidWriter writer = new MermaidWriter();
-        new CssClassDefinition(List.of("firstClassName", "secondClassName"), new StyleDefinition()
-                .addAttribute(StyleDefinition.FONT_SIZE, "12pt")
+        new CssClassDefinition(List.of("firstClassName", "secondClassName"), new StyleDefinition<ClassStyleDefinitionAttribute>()
+                .addAttribute(ClassStyleDefinitionAttribute.FONT_SIZE, "12pt")
         ).writeTo(writer, 0);
         assertThat(writer.toString().trim()).isEqualTo("classDef firstClassName,secondClassName font-size:12pt;");
     }
@@ -732,9 +731,9 @@ class ClassDiagramTest {
         ClassDiagram classDiagram = new ClassDiagram();
         classDiagram
                 .classElement(aClass("Animal").cssClass("someclass"))
-                .cssClassDefinition("someclass", new StyleDefinition().addAttribute(StyleDefinition.FILL, "#f96"))
+                .cssClassDefinition("someclass", new StyleDefinition<ClassStyleDefinitionAttribute>().addAttribute(ClassStyleDefinitionAttribute.FILL, "#f96"))
         ;
-        assertThat(classDiagram.generate()).isEqualTo(read("/attachCssClassToNode.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/attachCssClassToNode.mmd"));
     }
 
     @Test
@@ -747,9 +746,9 @@ class ClassDiagramTest {
                         .member(method("canEat").visibility(Visibility.PRIVATE))
 
                 )
-                .cssClassDefinition("someclass", new StyleDefinition().addAttribute(StyleDefinition.FILL, "#f96"))
+                .cssClassDefinition("someclass", new StyleDefinition<ClassStyleDefinitionAttribute>().addAttribute(ClassStyleDefinitionAttribute.FILL, "#f96"))
         ;
-        assertThat(classDiagram.generate()).isEqualTo(read("/attachCssClassToNode2.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/attachCssClassToNode2.mmd"));
     }
 
     @Test
@@ -758,10 +757,10 @@ class ClassDiagramTest {
         classDiagram
                 .classElement(aClass("Animal").cssClass("pink"))
                 .classElement(aClass("Mineral"))
-                .cssClassDefinition("default", new StyleDefinition().addAttribute(StyleDefinition.FILL, "#f96").addAttribute(StyleDefinition.COLOR, "red"))
-                .cssClassDefinition("pink", new StyleDefinition().addAttribute(StyleDefinition.COLOR, "#f9f"))
+                .cssClassDefinition("default", new StyleDefinition<ClassStyleDefinitionAttribute>().addAttribute(ClassStyleDefinitionAttribute.FILL, "#f96").addAttribute(ClassStyleDefinitionAttribute.COLOR, "red"))
+                .cssClassDefinition("pink", new StyleDefinition().addAttribute(ClassStyleDefinitionAttribute.COLOR, "#f9f"))
         ;
-        assertThat(classDiagram.generate()).isEqualTo(read("/defaultCssClass.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/defaultCssClass.mmd"));
     }
 
     @Test
@@ -769,7 +768,7 @@ class ClassDiagramTest {
         ClassDiagram classDiagram = new ClassDiagram();
         classDiagram
                 .classElement(aClass("Animal").cssClass("styleClass"));
-        assertThat(classDiagram.generate()).isEqualTo(read("/externalCssClass.mmd"));
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/externalCssClass.mmd"));
     }
 
 
@@ -781,15 +780,6 @@ class ClassDiagramTest {
         ClassDiagram classDiagram = new ClassDiagram(frontMatter);
         classDiagram
                 .classElement(aClass("Duck"));
-        assertThat(classDiagram.generate()).isEqualTo(read("/hideEmptyMembersBox.mmd"));
-    }
-
-    private String read(String fileName) {
-        try {
-            File file = new File(ClassDiagramTest.class.getResource(fileName).getFile());
-            return FileUtils.readFileToString(file, StandardCharsets.UTF_8);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        assertThat(classDiagram.generate()).isEqualTo(read("/classDiagram/hideEmptyMembersBox.mmd"));
     }
 }

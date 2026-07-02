@@ -5,10 +5,10 @@ import com.lamzi.doc.mermaid.diagram.config.DiagramConfiguration;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Diagram<T extends DiagramConfiguration> {
-    public DiagramFrontMatter<T> frontMatter;
-    String diagramName;
-    List<DiagramElement> elements = new ArrayList<>();
+public abstract class Diagram<T extends DiagramConfiguration, E extends DiagramElement> {
+    private final DiagramFrontMatter<T> frontMatter;
+    private final String diagramName;
+    private final List<E> elements = new ArrayList<>();
 
     public Diagram(DiagramFrontMatter<T> frontMatter, String diagramName) {
         this.frontMatter = frontMatter;
@@ -18,12 +18,16 @@ public abstract class Diagram<T extends DiagramConfiguration> {
     public final String generate() {
         MermaidWriter writer = new MermaidWriter();
         generateConfiguration(writer);
-        writer.write(diagramName);
+        generateHeadline(writer);
         writer.eol();
         for (DiagramElement element : elements) {
             element.writeTo(writer, 1);
         }
         return writer.toString();
+    }
+
+    protected void generateHeadline(MermaidWriter writer) {
+        writer.write(diagramName);
     }
 
 
@@ -33,7 +37,7 @@ public abstract class Diagram<T extends DiagramConfiguration> {
         }
     }
 
-    public void addElement(DiagramElement element) {
+    public void addElement(E element) {
         this.elements.add(element);
     }
 

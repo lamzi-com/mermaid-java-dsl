@@ -1,5 +1,7 @@
 package com.lamzi.doc.mermaid.diagram.classdiagram;
 
+import com.lamzi.doc.mermaid.diagram.Style;
+import com.lamzi.doc.mermaid.diagram.StyleDefinition;
 import com.lamzi.doc.mermaid.diagram.classdiagram.inline.InlineClassAttribute;
 import com.lamzi.doc.mermaid.diagram.classdiagram.inline.InlineClassMethod;
 import com.lamzi.doc.mermaid.diagram.classdiagram.inline.InlineCssClassAttachment;
@@ -88,12 +90,12 @@ public class ClassDiagramFactory {
         return new CallBack(type, function);
     }
 
-    public static Click click(Click.Kind kind, Type type, String reference) {
-        return new Click(kind, type, reference);
+    public static ClassClick click(ClassClick.Kind kind, Type type, String reference) {
+        return new ClassClick(kind, type, reference);
     }
 
-    public static Style style(Type type, StyleDefinition styleDefinition) {
-        return new Style(type, styleDefinition);
+    public static Style<ClassStyleDefinitionAttribute> style(String id, StyleDefinition<ClassStyleDefinitionAttribute> styleDefinition) {
+        return new Style<>(id, styleDefinition);
     }
 
     public static InlineCssClassAttachment cssClassAttachment(String className, Type... types) {

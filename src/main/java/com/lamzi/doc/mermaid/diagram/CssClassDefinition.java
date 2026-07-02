@@ -1,21 +1,22 @@
 package com.lamzi.doc.mermaid.diagram;
 
-import com.lamzi.doc.mermaid.diagram.classdiagram.StyleDefinition;
+import com.lamzi.doc.mermaid.diagram.classdiagram.ClassDiagramElement;
+import com.lamzi.doc.mermaid.diagram.flowchart.FlowchartDiagramElement;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CssClassDefinition implements DiagramElement {
+public class CssClassDefinition<T extends StyleDefinitionAttribute> implements ClassDiagramElement, FlowchartDiagramElement {
 
     private final List<String> classNames = new ArrayList<>();
-    private final StyleDefinition styleDefinition;
+    private final StyleDefinition<T> styleDefinition;
 
-    public CssClassDefinition(String className, StyleDefinition styleDefinition) {
+    public CssClassDefinition(String className, StyleDefinition<T> styleDefinition) {
         this.classNames.add(className);
         this.styleDefinition = styleDefinition;
     }
 
-    public CssClassDefinition(List<String> classNames, StyleDefinition styleDefinition) {
+    public CssClassDefinition(List<String> classNames, StyleDefinition<T> styleDefinition) {
         this.classNames.addAll(classNames);
         this.styleDefinition = styleDefinition;
     }

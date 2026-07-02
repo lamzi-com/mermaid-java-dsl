@@ -3,7 +3,7 @@ package com.lamzi.doc.mermaid.diagram.classdiagram;
 import com.lamzi.doc.mermaid.diagram.DiagramElement;
 import com.lamzi.doc.mermaid.diagram.MermaidWriter;
 
-public class DiagramDirection implements DiagramElement {
+public class DiagramDirection implements ClassDiagramElement {
     public enum Direction {
         RL, LR, TB, BT
     }
