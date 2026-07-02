@@ -1071,7 +1071,7 @@ class FlowchartDiagramTest extends BaseTest {
                 .addLink("H", "I")
                 .linkStyle(new StyleDefinition<FlowchartStyleDefinitionAttribute>()
                                 .addAttribute(FlowchartStyleDefinitionAttribute.COLOR, "blue"),
-                        1,2,7
+                        1, 2, 7
                 );
 
         assertThat(diagram.generate()).isEqualTo(read("/flowchart/linkStyleMultipleLinks.mmd"));
@@ -1105,13 +1105,148 @@ class FlowchartDiagramTest extends BaseTest {
     public void stylingANode() {
         FlowchartDiagram diagram = new FlowchartDiagram()
                 .direction(FlowchartDirection.LR)
-                .addLink(link(node("A"), linkTo(LinkTo.Type.TICK_LINK, LinkTo.HeadType.ARROW, node("B")).id("e1")))
-                .addLink(link(node("A"), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("C")).id("e2")))
-                .addEdgeIdStyle(edgeIdStyle("e1").curve("linear"))
-                .addEdgeIdStyle(edgeIdStyle("e2").curve("natural"));
+                .addLink(link(
+                        node("id1").shape(classicNodeShape("Start", ClassicNodeShape.Shape.ROUNDED_EDGES)),
+                        linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("id2").shape(classicNodeShape("Stop", ClassicNodeShape.Shape.ROUNDED_EDGES)))))
+                .style(style("id1", new StyleDefinition<FlowchartStyleDefinitionAttribute>()
+                        .addAttribute(FlowchartStyleDefinitionAttribute.FILL, "#f9f")
+                        .addAttribute(FlowchartStyleDefinitionAttribute.STROKE, "#333")
+                        .addAttribute(FlowchartStyleDefinitionAttribute.STROKE_WIDTH, "4px")
+                ))
+                .style(style("id2", new StyleDefinition<FlowchartStyleDefinitionAttribute>()
+                        .addAttribute(FlowchartStyleDefinitionAttribute.FILL, "#bbf")
+                        .addAttribute(FlowchartStyleDefinitionAttribute.STROKE, "#f66")
+                        .addAttribute(FlowchartStyleDefinitionAttribute.STROKE_WIDTH, "2px")
+                        .addAttribute(FlowchartStyleDefinitionAttribute.COLOR, "#fff")
+                        .addAttribute(FlowchartStyleDefinitionAttribute.STROKE_DASH_ARRAY, "5 5")
+                ));
 
         assertThat(diagram.generate()).isEqualTo(read("/flowchart/stylingANode.mmd"));
     }
 
 
+    @Test
+    public void stylingANodeClasses() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addLink("nodeId1", "nodeId2")
+                .cssClassDefinition("className", new StyleDefinition<FlowchartStyleDefinitionAttribute>()
+                        .addAttribute(FlowchartStyleDefinitionAttribute.FILL, "#f9f")
+                        .addAttribute(FlowchartStyleDefinitionAttribute.STROKE, "#333")
+                        .addAttribute(FlowchartStyleDefinitionAttribute.STROKE_WIDTH, "4px")
+                )
+                .cssClassDefinition(cssClassDefinition(new StyleDefinition<FlowchartStyleDefinitionAttribute>()
+                                .addAttribute(FlowchartStyleDefinitionAttribute.FONT_SIZE, "12pt"),
+                        "firstClassName", "secondClassName"))
+                .nodeClass("className", "nodeId1")
+                .nodeClass("className", "nodeId1", "nodeId2");
+
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/stylingANodeClasses.mmd"));
+    }
+
+    @Test
+    public void stylingANodeAttachClassToNode() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addLink(link(node("A").cssClass("someclass"), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("B"))))
+                .cssClassDefinition("someclass", new StyleDefinition<FlowchartStyleDefinitionAttribute>()
+                        .addAttribute(FlowchartStyleDefinitionAttribute.FILL, "#f96")
+                );
+
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/stylingANodeAttachClassToNode.mmd"));
+    }
+
+    @Test
+    public void stylingANodeAttachClassToNodeOnLinks() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addLink(link(List.of(
+                        node("A").cssClass("foo"),
+                        node("B").cssClass("bar")
+                ), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("C").cssClass("foobar"))))
+                .cssClassDefinition("foo", new StyleDefinition<FlowchartStyleDefinitionAttribute>()
+                        .addAttribute(FlowchartStyleDefinitionAttribute.STROKE, "#f00")
+                )
+                .cssClassDefinition("bar", new StyleDefinition<FlowchartStyleDefinitionAttribute>()
+                        .addAttribute(FlowchartStyleDefinitionAttribute.STROKE, "#0f0")
+                )
+                .cssClassDefinition("foobar", new StyleDefinition<FlowchartStyleDefinitionAttribute>()
+                        .addAttribute(FlowchartStyleDefinitionAttribute.STROKE, "#00f")
+                );
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/stylingANodeAttachClassToNodeOnLinks.mmd"));
+    }
+
+    @Test
+    public void stylingANodeCssClasses() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addLink(link(node("A").cssClass("myStyle"), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("B"))))
+                .cssClassDefinition("myStyle", new StyleDefinition<FlowchartStyleDefinitionAttribute>()
+                        .addAttribute(FlowchartStyleDefinitionAttribute.FILL, "#ff0000")
+                        .addAttribute(FlowchartStyleDefinitionAttribute.STROKE, "#ffff00")
+                        .addAttribute(FlowchartStyleDefinitionAttribute.STROKE_WIDTH, "4px")
+                );
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/stylingANodeCssClasses.mmd"));
+    }
+
+    @Test
+    public void stylingANodeDefaultClass() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addLink("A", "B")
+                .cssClassDefinition("default", new StyleDefinition<FlowchartStyleDefinitionAttribute>()
+                        .addAttribute(FlowchartStyleDefinitionAttribute.FILL, "#f9f")
+                        .addAttribute(FlowchartStyleDefinitionAttribute.STROKE, "#333")
+                        .addAttribute(FlowchartStyleDefinitionAttribute.STROKE_WIDTH, "4px")
+                );
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/stylingANodeDefaultClass.mmd"));
+    }
+
+
+    @Test
+    public void fontawesome() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.TD)
+                .addNode(node("B").shape(classicNodeShape("\"fa:fa-twitter for peace\"", ClassicNodeShape.Shape.SQUARE_EDGES)))
+                .addLink(link(node("B"), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("C").shape(classicNodeShape("fa:fa-ban forbidden", ClassicNodeShape.Shape.SQUARE_EDGES)))))
+                .addLink(link(node("B"), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("D").shape(classicNodeShape("fa:fa-spinner", ClassicNodeShape.Shape.ROUNDED_EDGES)))))
+                .addLink(link(node("B"), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("E").shape(classicNodeShape("A fa:fa-camera-retro perhaps?", ClassicNodeShape.Shape.ROUNDED_EDGES)))));
+
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/fontawesome.mmd"));
+    }
+
+    @Test
+    public void fontawesomeCustomIcons() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.TD)
+                .addComment("standard icon")
+                .addNode(node("B").shape(classicNodeShape("fa:fa-twitter", ClassicNodeShape.Shape.SQUARE_EDGES)))
+                .addComment("custom icon")
+                .addLink(link(node("B"), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("E").shape(classicNodeShape("fak:fa-custom-icon-name", ClassicNodeShape.Shape.ROUNDED_EDGES)))));
+
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/fontawesomeCustomIcons.mmd"));
+    }
+
+    @Test
+    public void newGraphSyntax() {
+        FlowchartDiagram diagram = new FlowchartDiagram()
+                .direction(FlowchartDirection.LR)
+                .addLink(link(node("A").shape(classicNodeShape("Hard edge", ClassicNodeShape.Shape.SQUARE_EDGES)), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("B").shape(classicNodeShape("Round edge", ClassicNodeShape.Shape.ROUNDED_EDGES))).text("Link text")))
+                .addLink(link(node("B"), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("C").shape(classicNodeShape("Decision", ClassicNodeShape.Shape.RHOMBUS)))))
+                .addLink(link(node("C"), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("D").shape(classicNodeShape("Result one", ClassicNodeShape.Shape.SQUARE_EDGES))).text("One")))
+                .addLink(link(node("C"), linkTo(LinkTo.Type.SIMPLE_LINK, LinkTo.HeadType.ARROW, node("E").shape(classicNodeShape("Result two", ClassicNodeShape.Shape.SQUARE_EDGES))).text("Two")));
+
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/newGraphSyntax.mmd"));
+    }
+
+    @Test
+    public void configurationRenderer() {
+        FlowchartDiagramConfiguration config = new FlowchartDiagramConfiguration().defaultRenderer("elk");
+        DiagramFrontMatter<FlowchartDiagramConfiguration> frontmatter = new DiagramFrontMatter<>(config);
+        FlowchartDiagram diagram = new FlowchartDiagram(frontmatter)
+                .direction(FlowchartDirection.LR)
+                .addLink("A", "B");
+
+        assertThat(diagram.generate()).isEqualTo(read("/flowchart/configurationRenderer.mmd"));
+    }
 }

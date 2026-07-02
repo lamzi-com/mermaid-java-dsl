@@ -5,6 +5,7 @@ import com.lamzi.doc.mermaid.diagram.CssClassDefinition;
 import com.lamzi.doc.mermaid.diagram.Diagram;
 import com.lamzi.doc.mermaid.diagram.DiagramFrontMatter;
 import com.lamzi.doc.mermaid.diagram.MermaidWriter;
+import com.lamzi.doc.mermaid.diagram.Style;
 import com.lamzi.doc.mermaid.diagram.StyleDefinition;
 
 import static com.lamzi.doc.mermaid.diagram.flowchart.FlowchartFactory.node;
@@ -63,6 +64,11 @@ public class FlowchartDiagram extends Diagram<FlowchartDiagramConfiguration, Flo
         return this;
     }
 
+    public FlowchartDiagram cssClassDefinition(CssClassDefinition<FlowchartStyleDefinitionAttribute> cssClassDefinition) {
+        this.addElement(cssClassDefinition);
+        return this;
+    }
+
     public FlowchartDiagram nodeClass(String id, String... nodeIds) {
         this.addElement(new NodeClass(id, nodeIds));
         return this;
@@ -90,6 +96,11 @@ public class FlowchartDiagram extends Diagram<FlowchartDiagramConfiguration, Flo
 
     public FlowchartDiagram linkStyle(StyleDefinition<FlowchartStyleDefinitionAttribute> styleDefinition, Integer... linkNumbers) {
         this.addElement(new LinkStyle(styleDefinition, linkNumbers));
+        return this;
+    }
+
+    public FlowchartDiagram style(Style<FlowchartStyleDefinitionAttribute> style) {
+        this.addElement(style);
         return this;
     }
 }

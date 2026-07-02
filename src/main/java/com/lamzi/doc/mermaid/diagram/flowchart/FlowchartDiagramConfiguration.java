@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class FlowchartDiagramConfiguration extends DiagramConfiguration {
 
-    private Map<String,String> flowchartProperties = new HashMap<>();
+    private Map<String, String> flowchartProperties = new HashMap<>();
 
     public FlowchartDiagramConfiguration htmlLabels(boolean htmlLabels) {
         this.configs.add(new HtmlLabelsConfig(htmlLabels));
@@ -36,5 +36,10 @@ public class FlowchartDiagramConfiguration extends DiagramConfiguration {
                 writer.eol();
             }
         }
+    }
+
+    public FlowchartDiagramConfiguration defaultRenderer(String defaultRenderer) {
+        flowchartProperties.put("defaultRenderer", defaultRenderer);
+        return this;
     }
 }

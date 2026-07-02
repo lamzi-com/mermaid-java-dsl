@@ -1,5 +1,8 @@
 package com.lamzi.doc.mermaid.diagram.flowchart;
 
+import com.lamzi.doc.mermaid.diagram.CssClassDefinition;
+import com.lamzi.doc.mermaid.diagram.Style;
+import com.lamzi.doc.mermaid.diagram.StyleDefinition;
 import com.lamzi.doc.mermaid.diagram.flowchart.shape.ClassicNodeShape;
 import com.lamzi.doc.mermaid.diagram.flowchart.shape.ExpandedNodeShape;
 import com.lamzi.doc.mermaid.diagram.flowchart.shape.IconNodeShape;
@@ -48,11 +51,19 @@ public class FlowchartFactory {
         return new Subgraph(name);
     }
 
-    public static NodeHrefClick hrefClick(String  nodeId, String reference){
+    public static NodeHrefClick hrefClick(String nodeId, String reference) {
         return new NodeHrefClick(nodeId, reference);
     }
 
-    public static NodeCallbackClick callbackClick(String  nodeId, String reference){
+    public static NodeCallbackClick callbackClick(String nodeId, String reference) {
         return new NodeCallbackClick(nodeId, reference);
+    }
+
+    public static Style<FlowchartStyleDefinitionAttribute> style(String id, StyleDefinition<FlowchartStyleDefinitionAttribute> styleDefinition) {
+        return new Style<>(id, styleDefinition);
+    }
+
+    public static CssClassDefinition<FlowchartStyleDefinitionAttribute> cssClassDefinition(StyleDefinition<FlowchartStyleDefinitionAttribute> styleDefinition, String... classNames) {
+        return new CssClassDefinition<>(List.of(classNames), styleDefinition);
     }
 }
