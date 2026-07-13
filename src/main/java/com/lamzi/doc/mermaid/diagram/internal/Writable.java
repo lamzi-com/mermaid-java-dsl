@@ -1,4 +1,4 @@
-package com.lamzi.doc.mermaid.diagram;
+package com.lamzi.doc.mermaid.diagram.internal;
 
 public interface Writable {
 

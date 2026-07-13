@@ -1,11 +1,8 @@
 package com.lamzi.doc.mermaid.diagram.classdiagram;
 
 import com.lamzi.doc.mermaid.diagram.config.DiagramConfiguration;
-import com.lamzi.doc.mermaid.diagram.MermaidWriter;
-import lombok.Getter;
-import lombok.Setter;
+import com.lamzi.doc.mermaid.diagram.internal.MermaidWriter;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 

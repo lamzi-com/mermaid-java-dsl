@@ -2,6 +2,7 @@ package com.lamzi.doc.mermaid.diagram;
 
 import com.lamzi.doc.mermaid.diagram.classdiagram.ClassDiagramElement;
 import com.lamzi.doc.mermaid.diagram.flowchart.FlowchartDiagramElement;
+import com.lamzi.doc.mermaid.diagram.internal.MermaidWriter;
 
 public class Style<T extends StyleDefinitionAttribute> implements ClassDiagramElement, FlowchartDiagramElement {
     private final String id;

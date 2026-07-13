@@ -1,7 +1,7 @@
 package com.lamzi.doc.mermaid.diagram.config;
 
-import com.lamzi.doc.mermaid.diagram.MermaidWriter;
-import com.lamzi.doc.mermaid.diagram.Writable;
+import com.lamzi.doc.mermaid.diagram.internal.MermaidWriter;
+import com.lamzi.doc.mermaid.diagram.internal.Writable;
 import lombok.Getter;
 import lombok.Setter;
 

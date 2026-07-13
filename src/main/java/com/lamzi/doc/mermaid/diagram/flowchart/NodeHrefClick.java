@@ -1,6 +1,6 @@
 package com.lamzi.doc.mermaid.diagram.flowchart;
 
-import com.lamzi.doc.mermaid.diagram.MermaidWriter;
+import com.lamzi.doc.mermaid.diagram.internal.MermaidWriter;
 
 public class NodeHrefClick extends NodeClick<NodeHrefClick> {
 

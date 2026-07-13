@@ -25,7 +25,7 @@ class FlowchartDiagramTest extends BaseTest {
     public void aNodeDefault() {
 
         DiagramFrontMatter<FlowchartDiagramConfiguration> frontMatter = new DiagramFrontMatter<>();
-        frontMatter.setTitle("Node");
+        frontMatter.title("Node");
         FlowchartDiagram diagram = new FlowchartDiagram(frontMatter);
         diagram
                 .direction(FlowchartDirection.LR)
@@ -36,7 +36,7 @@ class FlowchartDiagramTest extends BaseTest {
     @Test
     public void aNodeWithText() {
         DiagramFrontMatter<FlowchartDiagramConfiguration> frontMatter = new DiagramFrontMatter<>();
-        frontMatter.setTitle("Node with text");
+        frontMatter.title("Node with text");
         FlowchartDiagram diagram = new FlowchartDiagram(frontMatter);
         diagram
                 .direction(FlowchartDirection.LR)

@@ -1,7 +1,7 @@
 package com.lamzi.doc.mermaid.diagram.flowchart;
 
 import com.lamzi.doc.mermaid.diagram.MermaidException;
-import com.lamzi.doc.mermaid.diagram.MermaidWriter;
+import com.lamzi.doc.mermaid.diagram.internal.MermaidWriter;
 import com.lamzi.doc.mermaid.diagram.classdiagram.Class;
 import com.lamzi.doc.mermaid.diagram.flowchart.shape.NodeShape;
 

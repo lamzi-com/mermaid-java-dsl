@@ -1,5 +1,8 @@
 package com.lamzi.doc.mermaid.diagram;
 
+import com.lamzi.doc.mermaid.diagram.internal.MermaidWriter;
+import com.lamzi.doc.mermaid.diagram.internal.Writable;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
