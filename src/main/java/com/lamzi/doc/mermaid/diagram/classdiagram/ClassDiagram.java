@@ -85,7 +85,7 @@ public class ClassDiagram extends Diagram<ClassDiagramConfiguration, ClassDiagra
         return this;
     }
 
-    public ClassDiagram style(Style style) {
+    public ClassDiagram style(Style<ClassStyleDefinitionAttribute> style) {
         this.addElement(style);
         return this;
     }
