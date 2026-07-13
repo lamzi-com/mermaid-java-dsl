@@ -62,7 +62,23 @@ may happen before a stable 1.0 release.
 ## Current support
 - ✅ Class diagrams — implemented and tested against the official Mermaid documentation examples
 - ✅ Flowcharts — implemented and tested against the official Mermaid documentation examples
-- 🚧 Sequence diagrams (planned)
+- ✅ Sequence diagrams — implemented
+
+Sequence diagrams can be generated with the same fluent style:
+
+```java
+SequenceDiagram diagram = new SequenceDiagram()
+        .participant(participant("Alice"))
+        .participant(participant("Bob"))
+        .autonumber()
+        .message(message("Alice", "Bob", "Hello Bob"))
+        .block(alt("Bob is available")
+                .message(message("Bob", SequenceMessage.Arrow.DOTTED_ARROW, "Alice", "Yes"))
+                .elseBranch("Bob is busy")
+                .message(message("Bob", SequenceMessage.Arrow.DOTTED_ARROW, "Alice", "No")));
+
+System.out.println(diagram.generate());
+```
 
 
 ## Project scope
