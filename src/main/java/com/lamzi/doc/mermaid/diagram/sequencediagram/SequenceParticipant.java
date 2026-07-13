@@ -1,6 +1,6 @@
 package com.lamzi.doc.mermaid.diagram.sequencediagram;
 
-public class SequenceParticipant extends SequenceActorElement<SequenceParticipant> {
+public class SequenceParticipant extends BaseSequenceParticipant<SequenceParticipant> {
     public SequenceParticipant(String id) {
         super(id);
     }

@@ -12,8 +12,13 @@ public class SequenceDiagram extends Diagram<SequenceDiagramConfiguration, Seque
         this(null);
     }
 
-    public SequenceDiagram participant(SequenceActorElement<?> actorElement) {
-        addElement(actorElement);
+    public SequenceDiagram participant(SequenceParticipant participant) {
+        addElement(participant);
+        return this;
+    }
+
+    public SequenceDiagram actor(SequenceActor actor) {
+        addElement(actor);
         return this;
     }
 
@@ -22,7 +27,7 @@ public class SequenceDiagram extends Diagram<SequenceDiagramConfiguration, Seque
     }
 
     public SequenceDiagram actor(String id) {
-        return participant(new SequenceActor(id));
+        return actor(new SequenceActor(id));
     }
 
     public SequenceDiagram message(SequenceMessage message) {

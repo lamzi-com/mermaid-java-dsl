@@ -123,7 +123,7 @@ class SequenceDiagramTest extends BaseTest {
         SequenceDiagram diagram = new SequenceDiagram();
         diagram
                 .participant(participant("API").type(SequenceParticipantConfig.Type.BOUNDARY).alias("Public API"))
-                .participant(actor("DB").type(SequenceParticipantConfig.Type.DATABASE).alias("User Database"))
+                .actor(actor("DB").type(SequenceParticipantConfig.Type.DATABASE).alias("User Database"))
                 .participant(participant("Svc").type(SequenceParticipantConfig.Type.CONTROL).alias("Auth Service"))
                 .message("API", "Svc", "Authenticate")
                 .message("Svc", "DB", "Query user")
@@ -156,5 +156,4 @@ class SequenceDiagramTest extends BaseTest {
 
         assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/inlineAlias.mmd"));
     }
-
 }
