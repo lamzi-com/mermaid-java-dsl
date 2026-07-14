@@ -156,4 +156,42 @@ class SequenceDiagramTest extends BaseTest {
 
         assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/inlineAlias.mmd"));
     }
+
+    @Test
+    public void aliasPrecedence() {
+        SequenceDiagram diagram = new SequenceDiagram();
+        diagram
+                .participant(participant("API")
+                        .config(participantConfig()
+                                .type(SequenceParticipantConfig.Type.BOUNDARY)
+                                .alias("Internal Name"))
+                        .alias("External Name"))
+                .participant(participant("DB")
+                        .config(participantConfig()
+                                .type(SequenceParticipantConfig.Type.DATABASE)
+                                .alias("Internal DB"))
+                        .alias("External DB"))
+                .message("API", "DB", "Query")
+                .message(message("DB", SequenceMessage.Arrow.DOTTED_ARROW, "API", "Result"));
+
+        assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/aliasPrecedence.mmd"));
+    }
+
+    @Test
+    public void actorCreationAndDestruction() {
+        SequenceDiagram diagram = new SequenceDiagram();
+        diagram
+                .message("Alice", "Bob", "Hello Bob, how are you ?")
+                .message("Bob", "Alice", "Fine, thank you. And you?")
+                .addCreate(participant("Carl"))
+                .message("Alice", "Carl", "Hi Carl!")
+                .addCreate(actor("D").alias("Donald"))
+                .message("Carl", "D", "Hi!")
+                .addDestroy("Carl")
+                .message(message("Alice", SequenceMessage.Arrow.SOLID_CROSS, "Carl", "We are too many"))
+                .addDestroy("Bob")
+                .message("Bob", "Alice", "I agree");
+
+        assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/actorCreationAndDestruction.mmd"));
+    }
 }

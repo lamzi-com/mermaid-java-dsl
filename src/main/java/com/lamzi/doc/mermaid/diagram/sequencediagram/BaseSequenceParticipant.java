@@ -13,6 +13,10 @@ public abstract class BaseSequenceParticipant<T extends BaseSequenceParticipant<
 
     protected abstract String keyword();
 
+    public String id() {
+        return id;
+    }
+
     public T alias(String alias) {
         this.alias = alias;
         return self();
@@ -31,9 +35,7 @@ public abstract class BaseSequenceParticipant<T extends BaseSequenceParticipant<
         return self();
     }
 
-    @Override
-    public void writeTo(MermaidWriter writer, int level) {
-        writer.indent(level);
+    void writeDeclarationTo(MermaidWriter writer) {
         writer.write(keyword());
         writer.write(" ");
         writer.write(id);
@@ -44,6 +46,12 @@ public abstract class BaseSequenceParticipant<T extends BaseSequenceParticipant<
             writer.write(" as ");
             writer.write(alias);
         }
+    }
+
+    @Override
+    public void writeTo(MermaidWriter writer, int level) {
+        writer.indent(level);
+        writeDeclarationTo(writer);
         writer.eol();
     }
 

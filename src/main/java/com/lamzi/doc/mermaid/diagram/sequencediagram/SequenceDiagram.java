@@ -54,8 +54,13 @@ public class SequenceDiagram extends Diagram<SequenceDiagramConfiguration, Seque
         return this;
     }
 
-    public SequenceDiagram actorDirective(SequenceActorDirective actorDirective) {
-        addElement(actorDirective);
+    public SequenceDiagram addCreate(BaseSequenceParticipant<?> actor) {
+        addElement(new SequenceCreate(actor));
+        return this;
+    }
+
+    public SequenceDiagram addDestroy(String actorId) {
+        addElement(new SequenceDestroy(actorId));
         return this;
     }
 

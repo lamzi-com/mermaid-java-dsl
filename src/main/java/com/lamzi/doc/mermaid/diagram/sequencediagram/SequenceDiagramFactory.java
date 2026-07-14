@@ -37,18 +37,6 @@ public class SequenceDiagramFactory {
         return new SequenceActivation(SequenceActivation.Kind.DEACTIVATE, actor);
     }
 
-    public static SequenceActorDirective createParticipant(String actor) {
-        return new SequenceActorDirective(SequenceActorDirective.Kind.CREATE, SequenceActorDirective.ActorKind.PARTICIPANT, actor);
-    }
-
-    public static SequenceActorDirective createActor(String actor) {
-        return new SequenceActorDirective(SequenceActorDirective.Kind.CREATE, SequenceActorDirective.ActorKind.ACTOR, actor);
-    }
-
-    public static SequenceActorDirective destroy(String actor) {
-        return new SequenceActorDirective(SequenceActorDirective.Kind.DESTROY, null, actor);
-    }
-
     public static SequenceAutonumber autonumber() {
         return new SequenceAutonumber();
     }
