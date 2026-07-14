@@ -289,4 +289,25 @@ class SequenceDiagramTest extends BaseTest {
 
         assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/notesOver.mmd"));
     }
+
+    @Test
+    public void lineBreakNote() {
+        SequenceDiagram diagram = new SequenceDiagram();
+        diagram
+                .message(message("Alice", SOLID, NONE, "John", "Hello John,<br/>how are you?"))
+                .note(noteOver("A typical interaction<br/>But now in two lines", "Alice", "John"));
+
+        assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/lineBreakNote.mmd"));
+    }
+
+    @Test
+    public void lineBreakParticipant() {
+        SequenceDiagram diagram = new SequenceDiagram();
+        diagram
+                .participant(participant("Alice").alias("Alice<br/>Johnson"))
+                .message(message("Alice", SOLID, NONE, "John", "Hello John,<br/>how are you?"))
+                .note(noteOver("A typical interaction<br/>But now in two lines", "Alice", "John"));
+
+        assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/lineBreakParticipant.mmd"));
+    }
 }
