@@ -84,6 +84,11 @@ public class SequenceDiagram extends Diagram<SequenceDiagramConfiguration, Seque
         return this;
     }
 
+    public SequenceDiagram box(SequenceBox box) {
+        addElement(box);
+        return this;
+    }
+
     public SequenceDiagram comment(String comment) {
         addElement(new SequenceComment(comment));
         return this;

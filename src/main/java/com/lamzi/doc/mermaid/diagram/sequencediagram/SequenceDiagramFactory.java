@@ -81,7 +81,7 @@ public class SequenceDiagramFactory {
         return new SequenceBlock(SequenceBlock.Type.RECT, color);
     }
 
-    public static SequenceBlock box(String text) {
-        return new SequenceBlock(SequenceBlock.Type.BOX, text);
+    public static SequenceBox box(String text) {
+        return new SequenceBox(text);
     }
 }

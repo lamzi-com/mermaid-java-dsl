@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.actor;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.box;
+import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.loop;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.message;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.noteOver;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.noteRightOf;
@@ -208,11 +209,11 @@ class SequenceDiagramTest extends BaseTest {
     public void groupingBox() {
         SequenceDiagram diagram = new SequenceDiagram();
         diagram
-                .block(box("Alice & John")
+                .box(box("Alice & John")
                         .color("Purple")
                         .participant(participant("A"))
                         .participant(participant("J")))
-                .block(box("Another Group")
+                .box(box("Another Group")
                         .participant(participant("B"))
                         .participant(participant("C")))
                 .message("A", "J", "Hello John, how are you?")
@@ -262,8 +263,8 @@ class SequenceDiagramTest extends BaseTest {
     public void activationsInline2() {
         SequenceDiagram diagram = new SequenceDiagram();
         diagram
-                .message(message("Alice",  "John", "Hello John, how are you?").activate())
-                .message(message("Alice",  "John", "John, can you hear me?").activate())
+                .message(message("Alice", "John", "Hello John, how are you?").activate())
+                .message(message("Alice", "John", "John, can you hear me?").activate())
                 .message(message("John", DOTTED, ARROW, "Alice", "Hi Alice, I can hear you!").deactivate())
                 .message(message("John", DOTTED, ARROW, "Alice", "I feel great!").deactivate());
 
@@ -275,7 +276,7 @@ class SequenceDiagramTest extends BaseTest {
         SequenceDiagram diagram = new SequenceDiagram();
         diagram
                 .participant("John")
-                .note(noteRightOf( "John", "Text in note"));
+                .note(noteRightOf("John", "Text in note"));
 
         assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/notes.mmd"));
     }
@@ -310,4 +311,16 @@ class SequenceDiagramTest extends BaseTest {
 
         assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/lineBreakParticipant.mmd"));
     }
+
+    @Test
+    public void loops() {
+        SequenceDiagram diagram = new SequenceDiagram();
+        diagram
+                .message(message("Alice", SOLID, NONE, "John", "Hello John, how are you?"))
+                .block(loop("Every minute")
+                        .message(message("John", DOTTED, NONE, "Alice", "Great!")));
+
+        assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/loops.mmd"));
+    }
+
 }

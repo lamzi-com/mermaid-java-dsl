@@ -10,12 +10,6 @@ public class SequenceBlock implements SequenceDiagramElement {
     private final String text;
     private final List<Section> sections = new ArrayList<>();
     private Section currentSection;
-    private String color;
-
-    public SequenceBlock color(String purple) {
-        this.color = purple;
-        return this;
-    }
 
     public enum Type {
         LOOP("loop"),
@@ -24,8 +18,7 @@ public class SequenceBlock implements SequenceDiagramElement {
         PAR("par"),
         CRITICAL("critical"),
         BREAK("break"),
-        RECT("rect"),
-        BOX("box");
+        RECT("rect");
 
         private final String keyword;
 
@@ -103,10 +96,6 @@ public class SequenceBlock implements SequenceDiagramElement {
     public void writeTo(MermaidWriter writer, int level) {
         writer.indent(level);
         writer.write(type.keyword);
-        if (color != null) {
-            writer.write(" ");
-            writer.write(color);
-        }
         if (text != null && !text.isBlank()) {
             writer.write(" ");
             writer.write(text);
