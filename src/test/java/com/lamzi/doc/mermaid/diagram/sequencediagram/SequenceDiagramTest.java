@@ -4,11 +4,13 @@ import com.lamzi.doc.mermaid.diagram.BaseTest;
 import org.junit.jupiter.api.Test;
 
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.actor;
+import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.alt;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.box;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.loop;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.message;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.noteOver;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.noteRightOf;
+import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.opt;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.participant;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.participantConfig;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceMessage.Head.ARROW;
@@ -321,6 +323,21 @@ class SequenceDiagramTest extends BaseTest {
                         .message(message("John", DOTTED, NONE, "Alice", "Great!")));
 
         assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/loops.mmd"));
+    }
+
+    @Test
+    public void altBlock() {
+        SequenceDiagram diagram = new SequenceDiagram();
+        diagram
+                .message("Alice", "Bob", "Hello Bob, how are you?")
+                .block(alt("is sick")
+                        .message(message("Bob", "Alice", "Not so good :("))
+                        .elseBranch("is well")
+                        .message(message("Bob", "Alice", "Feeling fresh like a daisy")))
+                .block(opt("Extra response")
+                        .message(message("Bob", "Alice", "Thanks for asking")));
+
+        assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/altBlock.mmd"));
     }
 
 }
