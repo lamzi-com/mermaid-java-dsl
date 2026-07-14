@@ -254,4 +254,16 @@ class SequenceDiagramTest extends BaseTest {
 
         assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/activationsInline.mmd"));
     }
+
+    @Test
+    public void activationsInline2() {
+        SequenceDiagram diagram = new SequenceDiagram();
+        diagram
+                .message(message("Alice",  "John", "Hello John, how are you?").activate())
+                .message(message("Alice",  "John", "John, can you hear me?").activate())
+                .message(message("John", DOTTED, ARROW, "Alice", "Hi Alice, I can hear you!").deactivate())
+                .message(message("John", DOTTED, ARROW, "Alice", "I feel great!").deactivate());
+
+        assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/activationsInline2.mmd"));
+    }
 }
