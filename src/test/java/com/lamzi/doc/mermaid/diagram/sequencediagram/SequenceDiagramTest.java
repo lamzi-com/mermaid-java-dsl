@@ -6,10 +6,13 @@ import org.junit.jupiter.api.Test;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.actor;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.box;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.message;
+import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.noteOver;
+import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.noteRightOf;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.participant;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.participantConfig;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceMessage.Head.ARROW;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceMessage.Head.CROSS;
+import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceMessage.Head.NONE;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceMessage.Head.OPEN_ARROW;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceMessage.Line.DOTTED;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceMessage.Line.SOLID;
@@ -265,5 +268,25 @@ class SequenceDiagramTest extends BaseTest {
                 .message(message("John", DOTTED, ARROW, "Alice", "I feel great!").deactivate());
 
         assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/activationsInline2.mmd"));
+    }
+
+    @Test
+    public void notes() {
+        SequenceDiagram diagram = new SequenceDiagram();
+        diagram
+                .participant("John")
+                .note(noteRightOf( "John", "Text in note"));
+
+        assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/notes.mmd"));
+    }
+
+    @Test
+    public void notesOver() {
+        SequenceDiagram diagram = new SequenceDiagram();
+        diagram
+                .message(message("Alice", SOLID, NONE, "John", "Hello John, how are you?"))
+                .note(noteOver("A typical interaction", "Alice", "John"));
+
+        assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/notesOver.mmd"));
     }
 }

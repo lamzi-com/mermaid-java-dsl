@@ -21,12 +21,16 @@ public class SequenceDiagramFactory {
         return new SequenceMessage(from, line, head, to, text);
     }
 
-    public static SequenceNote note(SequenceNote.Position position, String actor, String text) {
-        return new SequenceNote(position, text, actor);
+    public static SequenceNote noteRightOf(String actor, String text) {
+        return SequenceNote.rightOf(actor, text);
+    }
+
+    public static SequenceNote noteLeftOf(String actor, String text) {
+        return SequenceNote.leftOf(actor, text);
     }
 
     public static SequenceNote noteOver(String text, String... actors) {
-        return new SequenceNote(SequenceNote.Position.OVER, text, actors);
+        return SequenceNote.over(text, actors);
     }
 
     public static SequenceActivation activate(String actor) {

@@ -1,5 +1,6 @@
 package com.lamzi.doc.mermaid.diagram.sequencediagram;
 
+import com.lamzi.doc.mermaid.diagram.MermaidException;
 import com.lamzi.doc.mermaid.diagram.internal.MermaidWriter;
 
 import java.util.Arrays;
@@ -22,10 +23,25 @@ public class SequenceNote implements SequenceDiagramElement {
         }
     }
 
-    public SequenceNote(Position position, String text, String... actors) {
+    private SequenceNote(Position position, String text, String... actors) {
+        if (!Position.OVER.equals(position) && actors.length != 1) {
+            throw new MermaidException("Only over notes support multiple actors");
+        }
         this.position = position;
         this.text = text;
         this.actors = Arrays.asList(actors);
+    }
+
+    public static SequenceNote rightOf(String actor, String text) {
+        return new SequenceNote(Position.RIGHT_OF, text, actor);
+    }
+
+    public static SequenceNote leftOf(String actor, String text) {
+        return new SequenceNote(Position.LEFT_OF, text, actor);
+    }
+
+    public static SequenceNote over(String text, String... actors) {
+        return new SequenceNote(Position.OVER, text, actors);
     }
 
     public SequenceNote text(String text) {
