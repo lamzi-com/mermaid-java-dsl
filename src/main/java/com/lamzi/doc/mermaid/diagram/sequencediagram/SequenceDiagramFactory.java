@@ -14,11 +14,11 @@ public class SequenceDiagramFactory {
     }
 
     public static SequenceMessage message(String from, String to, String text) {
-        return new SequenceMessage(from, SequenceMessage.Arrow.SOLID_ARROW, to, text);
+        return new SequenceMessage(from, SequenceMessage.Line.SOLID, SequenceMessage.Head.ARROW, to, text);
     }
 
-    public static SequenceMessage message(String from, SequenceMessage.Arrow arrow, String to, String text) {
-        return new SequenceMessage(from, arrow, to, text);
+    public static SequenceMessage message(String from, SequenceMessage.Line line, SequenceMessage.Head head, String to, String text) {
+        return new SequenceMessage(from, line, head, to, text);
     }
 
     public static SequenceNote note(SequenceNote.Position position, String actor, String text) {

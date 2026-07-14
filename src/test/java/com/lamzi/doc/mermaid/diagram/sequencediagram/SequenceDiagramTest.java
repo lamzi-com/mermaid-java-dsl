@@ -8,6 +8,11 @@ import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFacto
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.message;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.participant;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.participantConfig;
+import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceMessage.Head.ARROW;
+import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceMessage.Head.CROSS;
+import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceMessage.Head.OPEN_ARROW;
+import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceMessage.Line.DOTTED;
+import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceMessage.Line.SOLID;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class SequenceDiagramTest extends BaseTest {
@@ -17,8 +22,8 @@ class SequenceDiagramTest extends BaseTest {
         SequenceDiagram diagram = new SequenceDiagram();
         diagram
                 .message("Alice", "John", "Hello John, how are you?")
-                .message(message("John", SequenceMessage.Arrow.DOTTED_ARROW, "Alice", "Great!"))
-                .message(message("Alice", SequenceMessage.Arrow.SOLID_OPEN, "John", "See you later!"));
+                .message(message("John", DOTTED, ARROW, "Alice", "Great!"))
+                .message(message("Alice", SOLID, OPEN_ARROW, "John", "See you later!"));
 
         assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/sequenceDiagram.mmd"));
     }
@@ -128,8 +133,8 @@ class SequenceDiagramTest extends BaseTest {
                 .participant(participant("Svc").type(SequenceParticipantConfig.Type.CONTROL).alias("Auth Service"))
                 .message("API", "Svc", "Authenticate")
                 .message("Svc", "DB", "Query user")
-                .message(message("DB", SequenceMessage.Arrow.DOTTED_ARROW, "Svc", "User data"))
-                .message(message("Svc", SequenceMessage.Arrow.DOTTED_ARROW, "API", "Token"));
+                .message(message("DB", DOTTED, ARROW, "Svc", "User data"))
+                .message(message("Svc", DOTTED, ARROW, "API", "Token"));
 
         assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/externalAlias2.mmd"));
     }
@@ -152,8 +157,8 @@ class SequenceDiagramTest extends BaseTest {
                                 .alias("User Database")))
                 .message("API", "Auth", "Login request")
                 .message("Auth", "DB", "Query user")
-                .message(message("DB", SequenceMessage.Arrow.DOTTED_ARROW, "Auth", "User data"))
-                .message(message("Auth", SequenceMessage.Arrow.DOTTED_ARROW, "API", "Access token"));
+                .message(message("DB", DOTTED, ARROW, "Auth", "User data"))
+                .message(message("Auth", DOTTED, ARROW, "API", "Access token"));
 
         assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/inlineAlias.mmd"));
     }
@@ -173,7 +178,7 @@ class SequenceDiagramTest extends BaseTest {
                                 .alias("Internal DB"))
                         .alias("External DB"))
                 .message("API", "DB", "Query")
-                .message(message("DB", SequenceMessage.Arrow.DOTTED_ARROW, "API", "Result"));
+                .message(message("DB", DOTTED, ARROW, "API", "Result"));
 
         assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/aliasPrecedence.mmd"));
     }
@@ -189,7 +194,7 @@ class SequenceDiagramTest extends BaseTest {
                 .addCreate(actor("D").alias("Donald"))
                 .message("Carl", "D", "Hi!")
                 .addDestroy("Carl")
-                .message(message("Alice", SequenceMessage.Arrow.SOLID_CROSS, "Carl", "We are too many"))
+                .message(message("Alice", SOLID, CROSS, "Carl", "We are too many"))
                 .addDestroy("Bob")
                 .message("Bob", "Alice", "I agree");
 
@@ -213,5 +218,18 @@ class SequenceDiagramTest extends BaseTest {
                 .message("B", "C", "Hello Charley, how are you?");
 
         assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/groupingBox.mmd"));
+    }
+
+    @Test
+    public void centralConnections() {
+        SequenceDiagram diagram = new SequenceDiagram();
+        diagram
+                .participant("Alice")
+                .participant("John")
+                .message(message("Alice", SOLID, ARROW, "John", "Hello John").toCentral())
+                .message(message("Alice", SOLID, ARROW, "John", "How are you?").fromCentral())
+                .message(message("John", SOLID, ARROW, "Alice", "Great!").fromCentral().toCentral());
+
+        assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/centralConnections.mmd"));
     }
 }
