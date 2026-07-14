@@ -4,6 +4,7 @@ import com.lamzi.doc.mermaid.diagram.BaseTest;
 import org.junit.jupiter.api.Test;
 
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.actor;
+import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.box;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.message;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.participant;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.participantConfig;
@@ -193,5 +194,24 @@ class SequenceDiagramTest extends BaseTest {
                 .message("Bob", "Alice", "I agree");
 
         assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/actorCreationAndDestruction.mmd"));
+    }
+
+    @Test
+    public void groupingBox() {
+        SequenceDiagram diagram = new SequenceDiagram();
+        diagram
+                .block(box("Alice & John")
+                        .color("Purple")
+                        .participant(participant("A"))
+                        .participant(participant("J")))
+                .block(box("Another Group")
+                        .participant(participant("B"))
+                        .participant(participant("C")))
+                .message("A", "J", "Hello John, how are you?")
+                .message("J", "A", "Great!")
+                .message("A", "B", "Hello Bob, how is Charley?")
+                .message("B", "C", "Hello Charley, how are you?");
+
+        assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/groupingBox.mmd"));
     }
 }
