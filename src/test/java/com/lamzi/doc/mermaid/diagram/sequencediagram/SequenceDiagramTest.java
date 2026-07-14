@@ -232,4 +232,26 @@ class SequenceDiagramTest extends BaseTest {
 
         assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/centralConnections.mmd"));
     }
+
+    @Test
+    public void activations() {
+        SequenceDiagram diagram = new SequenceDiagram();
+        diagram
+                .message("Alice", "John", "Hello John, how are you?")
+                .activate("John")
+                .message(message("John", DOTTED, ARROW, "Alice", "Great!"))
+                .deactivate("John");
+
+        assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/activations.mmd"));
+    }
+
+    @Test
+    public void activationsInline() {
+        SequenceDiagram diagram = new SequenceDiagram();
+        diagram
+                .message(message("Alice", SOLID, ARROW, "John", "Hello John, how are you?").activate())
+                .message(message("John", DOTTED, ARROW, "Alice", "Great!").deactivate());
+
+        assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/activationsInline.mmd"));
+    }
 }
