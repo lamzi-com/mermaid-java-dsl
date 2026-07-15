@@ -1,5 +1,6 @@
 package com.lamzi.doc.mermaid.diagram.sequencediagram;
 
+import com.lamzi.doc.mermaid.diagram.Comment;
 import com.lamzi.doc.mermaid.diagram.internal.MermaidWriter;
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.List;
 public class SequenceBox implements SequenceDiagramElement {
     private String text;
 
-    private final List<SequenceDiagramElement> elements = new ArrayList<>();
+    private final List<SequenceBoxElement> elements = new ArrayList<>();
     private String color;
 
     public SequenceBox() {
@@ -35,10 +36,10 @@ public class SequenceBox implements SequenceDiagramElement {
     }
 
     public SequenceBox comment(String comment) {
-        return comment(new SequenceComment(comment));
+        return comment(new Comment(comment));
     }
 
-    public SequenceBox comment(SequenceComment comment) {
+    public SequenceBox comment(Comment comment) {
         elements.add(comment);
         return this;
     }
@@ -57,7 +58,7 @@ public class SequenceBox implements SequenceDiagramElement {
         }
         writer.eol();
 
-        for (SequenceDiagramElement element : elements) {
+        for (SequenceBoxElement element : elements) {
             element.writeTo(writer, level + 1);
         }
 

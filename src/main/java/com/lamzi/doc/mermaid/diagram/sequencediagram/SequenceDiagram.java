@@ -1,5 +1,6 @@
 package com.lamzi.doc.mermaid.diagram.sequencediagram;
 
+import com.lamzi.doc.mermaid.diagram.Comment;
 import com.lamzi.doc.mermaid.diagram.Diagram;
 import com.lamzi.doc.mermaid.diagram.DiagramFrontMatter;
 
@@ -90,7 +91,7 @@ public class SequenceDiagram extends Diagram<SequenceDiagramConfiguration, Seque
     }
 
     public SequenceDiagram comment(String comment) {
-        addElement(new SequenceComment(comment));
+        addElement(new Comment(comment));
         return this;
     }
 }

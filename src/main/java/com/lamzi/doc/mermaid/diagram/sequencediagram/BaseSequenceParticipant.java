@@ -2,7 +2,7 @@ package com.lamzi.doc.mermaid.diagram.sequencediagram;
 
 import com.lamzi.doc.mermaid.diagram.internal.MermaidWriter;
 
-public abstract class BaseSequenceParticipant<T extends BaseSequenceParticipant<T>> implements SequenceDiagramElement {
+public abstract class BaseSequenceParticipant<T extends BaseSequenceParticipant<T>> implements SequenceDiagramElement , SequenceBoxElement{
     private final String id;
     private String alias;
     private SequenceParticipantConfig config;
