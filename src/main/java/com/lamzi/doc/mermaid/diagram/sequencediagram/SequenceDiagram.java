@@ -70,7 +70,12 @@ public class SequenceDiagram extends Diagram<SequenceDiagramConfiguration, Seque
         return this;
     }
 
-    public SequenceDiagram autonumber(String start, String increment) {
+    public SequenceDiagram autonumber(SequenceNumber start) {
+        addElement(new SequenceAutonumber(start));
+        return this;
+    }
+
+    public SequenceDiagram autonumber(SequenceNumber start, SequenceNumber increment) {
         addElement(new SequenceAutonumber(start, increment));
         return this;
     }

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.actor;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.alt;
+import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.autonumber;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.box;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.breakBlock;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.critical;
@@ -12,6 +13,7 @@ import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFacto
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.message;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.noteOver;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.noteRightOf;
+import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.number;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.opt;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.par;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.participant;
@@ -441,6 +443,61 @@ class SequenceDiagramTest extends BaseTest {
                 .message(message("John", DOTTED, ARROW, "Alice", "Yeah! See you there.").deactivate());
 
         assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/backgroundHighlighting.mmd"));
+    }
+
+    @Test
+    public void comments() {
+        SequenceDiagram diagram = new SequenceDiagram();
+        diagram
+                .message("Alice", "John", "Hello John, how are you?")
+                .comment("this is a comment")
+                .message(message("John", DOTTED, ARROW, "Alice", "Great!"));
+
+        assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/comments.mmd"));
+    }
+
+    @Test
+    public void entityCodesToEscapeCharacters() {
+        SequenceDiagram diagram = new SequenceDiagram();
+        diagram
+                .message("A", "B", "I #9829; you!")
+                .message("B", "A", "I #9829; you #infin; times more!");
+
+        assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/entityCodesToEscapeCharacters.mmd"));
+    }
+
+    @Test
+    public void autonumber() {
+        SequenceDiagram diagram = new SequenceDiagram();
+        diagram
+                .autonumber()
+                .message("Alice", "John", "Hello John, how are you?")
+                .block(loop()
+                        .text("HealthCheck")
+                        .message(message("John", "John", "Fight against hypochondria")))
+                .note(noteRightOf("John", "Rational thoughts!"))
+                .message(message("John", DOTTED, ARROW, "Alice", "Great!"))
+                .message("John", "Bob", "How about you?")
+                .message(message("Bob", DOTTED, ARROW, "John", "Jolly good!"));
+
+        assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/autonumber.mmd"));
+    }
+
+    @Test
+    public void autonumber2() {
+        SequenceDiagram diagram = new SequenceDiagram();
+        diagram
+                .autonumber(number("20.99"), number("5.5"))
+                .message("Alice", "John", "Hello John, how are you?")
+                .block(loop()
+                        .text("HealthCheck")
+                        .message(message("John", "John", "Fight against hypochondria")))
+                .note(noteRightOf("John", "Rational thoughts!"))
+                .message(message("John", DOTTED, ARROW, "Alice", "Great!"))
+                .message("John", "Bob", "How about you?")
+                .message(message("Bob", DOTTED, ARROW, "John", "Jolly good!"));
+
+        assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/autonumber2.mmd"));
     }
 
 }

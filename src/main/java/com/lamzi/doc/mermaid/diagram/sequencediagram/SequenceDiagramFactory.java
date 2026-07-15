@@ -45,8 +45,16 @@ public class SequenceDiagramFactory {
         return new SequenceAutonumber();
     }
 
-    public static SequenceAutonumber autonumber(String start, String increment) {
+    public static SequenceAutonumber autonumber(SequenceNumber start) {
+        return new SequenceAutonumber(start);
+    }
+
+    public static SequenceAutonumber autonumber(SequenceNumber start, SequenceNumber increment) {
         return new SequenceAutonumber(start, increment);
+    }
+
+    public static SequenceNumber number(String number) {
+        return new SequenceNumber(number);
     }
 
     public static SequenceActorLink link(String actor, String label, String url) {

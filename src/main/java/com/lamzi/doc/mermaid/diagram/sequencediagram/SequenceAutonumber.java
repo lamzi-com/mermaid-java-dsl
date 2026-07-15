@@ -3,14 +3,18 @@ package com.lamzi.doc.mermaid.diagram.sequencediagram;
 import com.lamzi.doc.mermaid.diagram.internal.MermaidWriter;
 
 public class SequenceAutonumber implements SequenceDiagramElement {
-    private final String start;
-    private final String increment;
+    private final SequenceNumber start;
+    private final SequenceNumber increment;
 
     public SequenceAutonumber() {
         this(null, null);
     }
 
-    public SequenceAutonumber(String start, String increment) {
+    public SequenceAutonumber(SequenceNumber start) {
+        this(start, null);
+    }
+
+    public SequenceAutonumber(SequenceNumber start, SequenceNumber increment) {
         this.start = start;
         this.increment = increment;
     }
@@ -21,11 +25,11 @@ public class SequenceAutonumber implements SequenceDiagramElement {
         writer.write("autonumber");
         if (start != null) {
             writer.write(" ");
-            writer.write(start);
+            writer.write(start.toString());
         }
         if (increment != null) {
             writer.write(" ");
-            writer.write(increment);
+            writer.write(increment.toString());
         }
         writer.eol();
     }
