@@ -45,23 +45,23 @@ public class SequenceDiagram extends Diagram<SequenceDiagramConfiguration, Seque
         return this;
     }
 
-    public SequenceDiagram activate(String actor) {
-        addElement(new SequenceActivation(SequenceActivation.Kind.ACTIVATE, actor));
+    public SequenceDiagram activate(String participant) {
+        addElement(new SequenceActivation(SequenceActivation.Kind.ACTIVATE, participant));
         return this;
     }
 
-    public SequenceDiagram deactivate(String actor) {
-        addElement(new SequenceActivation(SequenceActivation.Kind.DEACTIVATE, actor));
+    public SequenceDiagram deactivate(String participant) {
+        addElement(new SequenceActivation(SequenceActivation.Kind.DEACTIVATE, participant));
         return this;
     }
 
-    public SequenceDiagram addCreate(BaseSequenceParticipant<?> actor) {
-        addElement(new SequenceCreate(actor));
+    public SequenceDiagram addCreate(BaseSequenceParticipant<?> participant) {
+        addElement(new SequenceCreate(participant));
         return this;
     }
 
-    public SequenceDiagram addDestroy(String actorId) {
-        addElement(new SequenceDestroy(actorId));
+    public SequenceDiagram addDestroy(String participantId) {
+        addElement(new SequenceDestroy(participantId));
         return this;
     }
 
