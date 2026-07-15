@@ -6,26 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class SequenceBlock<T extends SequenceBlock<T>> implements SequenceDiagramElement {
-    private final Type type;
     private String header;
     private final List<Section> sections = new ArrayList<>();
     private Section currentSection;
-
-    public enum Type {
-        LOOP("loop"),
-        ALT("alt"),
-        OPT("opt"),
-        PAR("par"),
-        CRITICAL("critical"),
-        BREAK("break"),
-        RECT("rect");
-
-        private final String keyword;
-
-        Type(String keyword) {
-            this.keyword = keyword;
-        }
-    }
 
     private static class Section {
         private final String keyword;
@@ -38,11 +21,12 @@ public abstract class SequenceBlock<T extends SequenceBlock<T>> implements Seque
         }
     }
 
-    protected SequenceBlock(Type type) {
-        this.type = type;
+    protected SequenceBlock() {
         this.currentSection = new Section(null, null);
         this.sections.add(currentSection);
     }
+
+    protected abstract String kind();
 
     protected T header(String header) {
         this.header = header;
@@ -66,12 +50,12 @@ public abstract class SequenceBlock<T extends SequenceBlock<T>> implements Seque
         return add(note);
     }
 
-    public T activate(String actor) {
-        return add(new SequenceActivation(SequenceActivation.Kind.ACTIVATE, actor));
+    public T activate(String participant) {
+        return add(new SequenceActivation(SequenceActivation.Kind.ACTIVATE, participant));
     }
 
-    public T deactivate(String actor) {
-        return add(new SequenceActivation(SequenceActivation.Kind.DEACTIVATE, actor));
+    public T deactivate(String participant) {
+        return add(new SequenceActivation(SequenceActivation.Kind.DEACTIVATE, participant));
     }
 
     protected T addSection(String keyword, String text) {
@@ -83,7 +67,7 @@ public abstract class SequenceBlock<T extends SequenceBlock<T>> implements Seque
     @Override
     public void writeTo(MermaidWriter writer, int level) {
         writer.indent(level);
-        writer.write(type.keyword);
+        writer.write(kind());
         if (header != null && !header.isBlank()) {
             writer.write(" ");
             writer.write(header);

@@ -16,7 +16,7 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.fields;
 
 public class ArchUnitTests {
 
-    private JavaClasses importedClasses = new ClassFileImporter().importPackages("com.lamzi.doc.mermaid");
+    private final JavaClasses importedClasses = new ClassFileImporter().importPackages("com.lamzi.doc.mermaid");
 
     private static final ArchCondition<JavaField> BE_PRIVATE_OR_PROTECTED =
             new ArchCondition<>("be private or protected") {

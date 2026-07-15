@@ -1,8 +1,9 @@
 package com.lamzi.doc.mermaid.diagram.sequencediagram;
 
 public class SequenceLoop extends SequenceBlock<SequenceLoop> {
-    public SequenceLoop() {
-        super(Type.LOOP);
+    @Override
+    protected String kind() {
+        return "loop";
     }
 
     public SequenceLoop text(String text) {

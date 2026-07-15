@@ -1,8 +1,9 @@
 package com.lamzi.doc.mermaid.diagram.sequencediagram;
 
 public class SequenceCritical extends SequenceBlock<SequenceCritical> {
-    public SequenceCritical() {
-        super(Type.CRITICAL);
+    @Override
+    protected String kind() {
+        return "critical";
     }
 
     public SequenceCritical text(String text) {

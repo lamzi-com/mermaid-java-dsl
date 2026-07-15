@@ -1,8 +1,9 @@
 package com.lamzi.doc.mermaid.diagram.sequencediagram;
 
 public class SequenceOpt extends SequenceBlock<SequenceOpt> {
-    public SequenceOpt() {
-        super(Type.OPT);
+    @Override
+    protected String kind() {
+        return "opt";
     }
 
     public SequenceOpt text(String text) {

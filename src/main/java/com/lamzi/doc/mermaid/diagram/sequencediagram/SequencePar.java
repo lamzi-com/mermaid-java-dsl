@@ -1,8 +1,9 @@
 package com.lamzi.doc.mermaid.diagram.sequencediagram;
 
 public class SequencePar extends SequenceBlock<SequencePar> {
-    public SequencePar() {
-        super(Type.PAR);
+    @Override
+    protected String kind() {
+        return "par";
     }
 
     public SequencePar text(String text) {

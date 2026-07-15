@@ -1,8 +1,9 @@
 package com.lamzi.doc.mermaid.diagram.sequencediagram;
 
 public class SequenceAlt extends SequenceBlock<SequenceAlt> {
-    public SequenceAlt() {
-        super(Type.ALT);
+    @Override
+    protected String kind() {
+        return "alt";
     }
 
     public SequenceAlt text(String text) {
