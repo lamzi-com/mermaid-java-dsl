@@ -9,6 +9,7 @@ import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFacto
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.box;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.breakBlock;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.critical;
+import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.link;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.loop;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.message;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.noteOver;
@@ -498,6 +499,23 @@ class SequenceDiagramTest extends BaseTest {
                 .message(message("Bob", DOTTED, ARROW, "John", "Jolly good!"));
 
         assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/autonumber2.mmd"));
+    }
+
+    @Test
+    public void actorsMenu() {
+        SequenceDiagram diagram = new SequenceDiagram();
+        diagram
+                .participant("Alice")
+                .participant("John")
+                .link(link("Alice", "Dashboard", "https://dashboard.contoso.com/alice"))
+                .link(link("Alice", "Wiki", "https://wiki.contoso.com/alice"))
+                .link(link("John", "Dashboard", "https://dashboard.contoso.com/john"))
+                .link(link("John", "Wiki", "https://wiki.contoso.com/john"))
+                .message("Alice", "John", "Hello John, how are you?")
+                .message(message("John", DOTTED, ARROW, "Alice", "Great!"))
+                .message(message("Alice", SOLID, OPEN_ARROW, "John", "See you later!"));
+
+        assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/actorsMenu.mmd"));
     }
 
 }
