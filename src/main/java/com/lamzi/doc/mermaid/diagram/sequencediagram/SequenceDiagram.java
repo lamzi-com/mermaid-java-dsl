@@ -80,7 +80,7 @@ public class SequenceDiagram extends Diagram<SequenceDiagramConfiguration, Seque
         return this;
     }
 
-    public SequenceDiagram link(SequenceActorLink link) {
+    public SequenceDiagram link(SequenceParticipantLink link) {
         addElement(link);
         return this;
     }

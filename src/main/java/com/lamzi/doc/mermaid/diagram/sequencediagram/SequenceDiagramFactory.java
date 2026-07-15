@@ -57,8 +57,8 @@ public class SequenceDiagramFactory {
         return new SequenceNumber(number);
     }
 
-    public static SequenceActorLink link(String actor, String label, String url) {
-        return new SequenceActorLink(actor, label, url);
+    public static SequenceParticipantLink link(String participant, String label, String url) {
+        return new SequenceParticipantLink(participant, label, url);
     }
 
     public static SequenceLoop loop() {
