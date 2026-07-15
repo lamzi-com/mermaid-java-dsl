@@ -211,11 +211,13 @@ class SequenceDiagramTest extends BaseTest {
     public void groupingBox() {
         SequenceDiagram diagram = new SequenceDiagram();
         diagram
-                .box(box("Alice & John")
+                .box(box()
                         .color("Purple")
+                        .text("Alice & John")
                         .participant(participant("A"))
                         .participant(participant("J")))
-                .box(box("Another Group")
+                .box(box()
+                        .text("Another Group")
                         .participant(participant("B"))
                         .participant(participant("C")))
                 .message("A", "J", "Hello John, how are you?")
@@ -319,7 +321,8 @@ class SequenceDiagramTest extends BaseTest {
         SequenceDiagram diagram = new SequenceDiagram();
         diagram
                 .message(message("Alice", SOLID, NONE, "John", "Hello John, how are you?"))
-                .block(loop("Every minute")
+                .block(loop()
+                        .text("Every minute")
                         .message(message("John", DOTTED, NONE, "Alice", "Great!")));
 
         assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/loops.mmd"));
@@ -330,11 +333,13 @@ class SequenceDiagramTest extends BaseTest {
         SequenceDiagram diagram = new SequenceDiagram();
         diagram
                 .message("Alice", "Bob", "Hello Bob, how are you?")
-                .block(alt("is sick")
+                .block(alt()
+                        .text("is sick")
                         .message(message("Bob", "Alice", "Not so good :("))
                         .elseBranch("is well")
                         .message(message("Bob", "Alice", "Feeling fresh like a daisy")))
-                .block(opt("Extra response")
+                .block(opt()
+                        .text("Extra response")
                         .message(message("Bob", "Alice", "Thanks for asking")));
 
         assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/altBlock.mmd"));

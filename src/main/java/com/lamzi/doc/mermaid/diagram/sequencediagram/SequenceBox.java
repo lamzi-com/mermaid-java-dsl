@@ -6,16 +6,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SequenceBox implements SequenceDiagramElement {
-    private final String text;
+    private String text;
+
     private final List<SequenceDiagramElement> elements = new ArrayList<>();
     private String color;
 
-    public SequenceBox(String text) {
-        this.text = text;
+    public SequenceBox() {
     }
 
     public SequenceBox color(String color) {
         this.color = color;
+        return this;
+    }
+
+    public SequenceBox text(String text) {
+        this.text = text;
         return this;
     }
 

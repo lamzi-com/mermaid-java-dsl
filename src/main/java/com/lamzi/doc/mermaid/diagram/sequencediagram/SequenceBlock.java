@@ -5,9 +5,9 @@ import com.lamzi.doc.mermaid.diagram.internal.MermaidWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SequenceBlock implements SequenceDiagramElement {
+public abstract class SequenceBlock<T extends SequenceBlock<T>> implements SequenceDiagramElement {
     private final Type type;
-    private final String text;
+    private String text;
     private final List<Section> sections = new ArrayList<>();
     private Section currentSection;
 
@@ -38,58 +38,46 @@ public class SequenceBlock implements SequenceDiagramElement {
         }
     }
 
-    public SequenceBlock(Type type, String text) {
+    protected SequenceBlock(Type type) {
         this.type = type;
-        this.text = text;
         this.currentSection = new Section(null, null);
         this.sections.add(currentSection);
     }
 
-    public SequenceBlock add(SequenceDiagramElement element) {
-        currentSection.elements.add(element);
-        return this;
+    public T text(String text) {
+        this.text = text;
+        return self();
     }
 
-    public SequenceBlock participant(SequenceParticipant participant) {
+    public T add(SequenceDiagramElement element) {
+        currentSection.elements.add(element);
+        return self();
+    }
+
+    public T participant(SequenceParticipant participant) {
         return add(participant);
     }
 
-    public SequenceBlock message(SequenceMessage message) {
+    public T message(SequenceMessage message) {
         return add(message);
     }
 
-    public SequenceBlock note(SequenceNote note) {
+    public T note(SequenceNote note) {
         return add(note);
     }
 
-    public SequenceBlock activate(String actor) {
+    public T activate(String actor) {
         return add(new SequenceActivation(SequenceActivation.Kind.ACTIVATE, actor));
     }
 
-    public SequenceBlock deactivate(String actor) {
+    public T deactivate(String actor) {
         return add(new SequenceActivation(SequenceActivation.Kind.DEACTIVATE, actor));
     }
 
-    public SequenceBlock otherwise() {
-        return elseBranch(null);
-    }
-
-    public SequenceBlock elseBranch(String text) {
-        return addSection("else", text);
-    }
-
-    public SequenceBlock andBranch(String text) {
-        return addSection("and", text);
-    }
-
-    public SequenceBlock option(String text) {
-        return addSection("option", text);
-    }
-
-    private SequenceBlock addSection(String keyword, String text) {
+    protected T addSection(String keyword, String text) {
         currentSection = new Section(keyword, text);
         sections.add(currentSection);
-        return this;
+        return self();
     }
 
     @Override
@@ -120,5 +108,10 @@ public class SequenceBlock implements SequenceDiagramElement {
         writer.indent(level);
         writer.write("end");
         writer.eol();
+    }
+
+    @SuppressWarnings("unchecked")
+    private T self() {
+        return (T) this;
     }
 }

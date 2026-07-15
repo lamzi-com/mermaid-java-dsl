@@ -79,7 +79,7 @@ public class SequenceDiagram extends Diagram<SequenceDiagramConfiguration, Seque
         return this;
     }
 
-    public SequenceDiagram block(SequenceBlock block) {
+    public SequenceDiagram block(SequenceBlock<?> block) {
         addElement(block);
         return this;
     }

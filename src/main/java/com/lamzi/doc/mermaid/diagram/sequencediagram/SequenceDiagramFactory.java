@@ -53,35 +53,38 @@ public class SequenceDiagramFactory {
         return new SequenceActorLink(actor, label, url);
     }
 
-    public static SequenceBlock loop(String text) {
-        return new SequenceBlock(SequenceBlock.Type.LOOP, text);
+    public static SequenceLoop loop() {
+        return new SequenceLoop();
     }
 
-    public static SequenceBlock alt(String text) {
-        return new SequenceBlock(SequenceBlock.Type.ALT, text);
+    public static SequenceAlt alt() {
+        return new SequenceAlt();
     }
 
-    public static SequenceBlock opt(String text) {
-        return new SequenceBlock(SequenceBlock.Type.OPT, text);
+    public static SequenceOpt opt() {
+        return new SequenceOpt();
     }
 
-    public static SequenceBlock par(String text) {
-        return new SequenceBlock(SequenceBlock.Type.PAR, text);
+
+    public static SequencePar par() {
+        return new SequencePar();
     }
 
-    public static SequenceBlock critical(String text) {
-        return new SequenceBlock(SequenceBlock.Type.CRITICAL, text);
+
+    public static SequenceCritical critical() {
+        return new SequenceCritical();
     }
 
-    public static SequenceBlock breakBlock(String text) {
-        return new SequenceBlock(SequenceBlock.Type.BREAK, text);
+
+    public static SequenceBreak breakBlock() {
+        return new SequenceBreak();
     }
 
-    public static SequenceBlock rect(String color) {
-        return new SequenceBlock(SequenceBlock.Type.RECT, color);
+    public static SequenceRect rect() {
+        return new SequenceRect();
     }
 
-    public static SequenceBox box(String text) {
-        return new SequenceBox(text);
+    public static SequenceBox box() {
+        return new SequenceBox();
     }
 }
