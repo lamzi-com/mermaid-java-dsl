@@ -16,6 +16,7 @@ import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFacto
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.par;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.participant;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.participantConfig;
+import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.rect;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceMessage.Head.ARROW;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceMessage.Head.CROSS;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceMessage.Head.NONE;
@@ -419,6 +420,27 @@ class SequenceDiagramTest extends BaseTest {
                 .message(message("API", DOTTED, NONE, "BillingService", "Start billing process"));
 
         assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/break.mmd"));
+    }
+
+    @Test
+    public void backgroundHighlighting() {
+        SequenceDiagram diagram = new SequenceDiagram();
+        diagram
+                .participant("Alice")
+                .participant("John")
+                .block(rect()
+                        .color("rgb(191, 223, 255)")
+                        .note(noteRightOf("Alice", "Alice calls John."))
+                        .message(message("Alice", "John", "Hello John, how are you?").activate())
+                        .add(rect()
+                                .color("rgb(200, 150, 255)")
+                                .message(message("Alice", "John", "John, can you hear me?").activate())
+                                .message(message("John", DOTTED, ARROW, "Alice", "Hi Alice, I can hear you!").deactivate()))
+                        .message(message("John", DOTTED, ARROW, "Alice", "I feel great!").deactivate()))
+                .message(message("Alice", "John", "Did you want to go to the game tonight?").activate())
+                .message(message("John", DOTTED, ARROW, "Alice", "Yeah! See you there.").deactivate());
+
+        assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/backgroundHighlighting.mmd"));
     }
 
 }

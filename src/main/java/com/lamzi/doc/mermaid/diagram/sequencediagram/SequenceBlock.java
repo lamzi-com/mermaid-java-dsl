@@ -7,7 +7,7 @@ import java.util.List;
 
 public abstract class SequenceBlock<T extends SequenceBlock<T>> implements SequenceDiagramElement {
     private final Type type;
-    private String text;
+    private String header;
     private final List<Section> sections = new ArrayList<>();
     private Section currentSection;
 
@@ -44,8 +44,8 @@ public abstract class SequenceBlock<T extends SequenceBlock<T>> implements Seque
         this.sections.add(currentSection);
     }
 
-    public T text(String text) {
-        this.text = text;
+    protected T header(String header) {
+        this.header = header;
         return self();
     }
 
@@ -84,9 +84,9 @@ public abstract class SequenceBlock<T extends SequenceBlock<T>> implements Seque
     public void writeTo(MermaidWriter writer, int level) {
         writer.indent(level);
         writer.write(type.keyword);
-        if (text != null && !text.isBlank()) {
+        if (header != null && !header.isBlank()) {
             writer.write(" ");
-            writer.write(text);
+            writer.write(header);
         }
         writer.eol();
 

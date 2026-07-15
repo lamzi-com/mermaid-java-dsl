@@ -5,6 +5,10 @@ public class SequenceAlt extends SequenceBlock<SequenceAlt> {
         super(Type.ALT);
     }
 
+    public SequenceAlt text(String text) {
+        return header(text);
+    }
+
     public SequenceAlt otherwise() {
         return elseBranch(null);
     }

@@ -5,6 +5,10 @@ public class SequencePar extends SequenceBlock<SequencePar> {
         super(Type.PAR);
     }
 
+    public SequencePar text(String text) {
+        return header(text);
+    }
+
     public SequencePar andBranch(String text) {
         return addSection("and", text);
     }

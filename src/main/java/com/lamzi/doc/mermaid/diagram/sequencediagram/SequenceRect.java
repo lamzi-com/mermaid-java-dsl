@@ -4,4 +4,8 @@ public class SequenceRect extends SequenceBlock<SequenceRect> {
     public SequenceRect() {
         super(Type.RECT);
     }
+
+    public SequenceRect color(String color) {
+        return header(color);
+    }
 }
