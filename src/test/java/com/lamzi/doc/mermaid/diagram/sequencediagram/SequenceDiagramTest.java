@@ -6,11 +6,14 @@ import org.junit.jupiter.api.Test;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.actor;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.alt;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.box;
+import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.breakBlock;
+import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.critical;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.loop;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.message;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.noteOver;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.noteRightOf;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.opt;
+import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.par;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.participant;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramFactory.participantConfig;
 import static com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceMessage.Head.ARROW;
@@ -343,6 +346,79 @@ class SequenceDiagramTest extends BaseTest {
                         .message(message("Bob", "Alice", "Thanks for asking")));
 
         assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/altBlock.mmd"));
+    }
+
+    @Test
+    public void parallel() {
+        SequenceDiagram diagram = new SequenceDiagram();
+        diagram
+                .block(par()
+                        .text("Alice to Bob")
+                        .message(message("Alice", "Bob", "Hello guys!"))
+                        .andBranch("Alice to John")
+                        .message(message("Alice", "John", "Hello guys!")))
+                .message(message("Bob", DOTTED, ARROW, "Alice", "Hi Alice!"))
+                .message(message("John", DOTTED, ARROW, "Alice", "Hi Alice!"));
+
+        assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/parallel.mmd"));
+    }
+
+    @Test
+    public void nestedParallel() {
+        SequenceDiagram diagram = new SequenceDiagram();
+        diagram
+                .block(par()
+                        .text("Alice to Bob")
+                        .message(message("Alice", "Bob", "Go help John"))
+                        .andBranch("Alice to John")
+                        .message(message("Alice", "John", "I want this done today"))
+                        .add(par()
+                                .text("John to Charlie")
+                                .message(message("John", "Charlie", "Can we do this today?"))
+                                .andBranch("John to Diana")
+                                .message(message("John", "Diana", "Can you help us today?"))));
+
+        assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/nestedParallel.mmd"));
+    }
+
+    @Test
+    public void criticalRegion() {
+        SequenceDiagram diagram = new SequenceDiagram();
+        diagram
+                .block(critical()
+                        .text("Establish a connection to the DB")
+                        .message(message("Service", DOTTED, NONE, "DB", "connect"))
+                        .option("Network timeout")
+                        .message(message("Service", DOTTED, NONE, "Service", "Log error"))
+                        .option("Credentials rejected")
+                        .message(message("Service", DOTTED, NONE, "Service", "Log different error")));
+
+        assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/criticalRegion.mmd"));
+    }
+
+    @Test
+    public void criticalRegion2() {
+        SequenceDiagram diagram = new SequenceDiagram();
+        diagram
+                .block(critical()
+                        .text("Establish a connection to the DB")
+                        .message(message("Service", DOTTED, NONE, "DB", "connect")));
+
+        assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/criticalRegion2.mmd"));
+    }
+
+    @Test
+    public void breakTest() {
+        SequenceDiagram diagram = new SequenceDiagram();
+        diagram
+                .message(message("Consumer", DOTTED, NONE, "API", "Book something"))
+                .message(message("API", DOTTED, NONE, "BookingService", "Start booking process"))
+                .block(breakBlock()
+                        .text("when the booking process fails")
+                        .message(message("API", DOTTED, NONE, "Consumer", "show failure")))
+                .message(message("API", DOTTED, NONE, "BillingService", "Start billing process"));
+
+        assertThat(diagram.generate()).isEqualTo(read("/sequenceDiagram/break.mmd"));
     }
 
 }
