@@ -1,11 +1,11 @@
 package com.lamzi.doc.mermaid.diagram;
 
 import com.lamzi.doc.mermaid.diagram.config.DiagramConfiguration;
-import lombok.Setter;
+import com.lamzi.doc.mermaid.diagram.internal.MermaidWriter;
+import com.lamzi.doc.mermaid.diagram.internal.Writable;
 
 public class DiagramFrontMatter<T extends DiagramConfiguration> implements Writable {
 
-    @Setter
     private String title;
     private T diagramConfiguration;
 
@@ -17,6 +17,9 @@ public class DiagramFrontMatter<T extends DiagramConfiguration> implements Writa
 
     }
 
+    public void title(String title) {
+        this.title = title;
+    }
 
     @Override
     public void writeTo(MermaidWriter writer) {

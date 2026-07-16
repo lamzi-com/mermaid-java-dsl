@@ -4,7 +4,7 @@ import com.lamzi.doc.mermaid.diagram.Comment;
 import com.lamzi.doc.mermaid.diagram.CssClassDefinition;
 import com.lamzi.doc.mermaid.diagram.Diagram;
 import com.lamzi.doc.mermaid.diagram.DiagramFrontMatter;
-import com.lamzi.doc.mermaid.diagram.MermaidWriter;
+import com.lamzi.doc.mermaid.diagram.internal.MermaidWriter;
 import com.lamzi.doc.mermaid.diagram.Style;
 import com.lamzi.doc.mermaid.diagram.StyleDefinition;
 

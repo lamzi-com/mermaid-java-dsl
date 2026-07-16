@@ -1,8 +1,8 @@
 package com.lamzi.doc.mermaid.diagram.flowchart;
 
 import com.lamzi.doc.mermaid.diagram.MermaidException;
-import com.lamzi.doc.mermaid.diagram.MermaidWriter;
-import com.lamzi.doc.mermaid.diagram.Writable;
+import com.lamzi.doc.mermaid.diagram.internal.MermaidWriter;
+import com.lamzi.doc.mermaid.diagram.internal.Writable;
 
 public class LinkTo implements Writable {
     private final Type type;

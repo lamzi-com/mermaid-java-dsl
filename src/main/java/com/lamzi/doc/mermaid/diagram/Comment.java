@@ -4,8 +4,17 @@ import com.lamzi.doc.mermaid.diagram.classdiagram.ClassDiagramElement;
 import com.lamzi.doc.mermaid.diagram.classdiagram.ClassElement;
 import com.lamzi.doc.mermaid.diagram.classdiagram.NamespaceElement;
 import com.lamzi.doc.mermaid.diagram.flowchart.FlowchartDiagramElement;
+import com.lamzi.doc.mermaid.diagram.internal.MermaidWriter;
+import com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceBoxElement;
+import com.lamzi.doc.mermaid.diagram.sequencediagram.SequenceDiagramElement;
 
-public class Comment implements ClassDiagramElement, FlowchartDiagramElement, NamespaceElement, ClassElement {
+public class Comment implements
+        ClassDiagramElement,
+        FlowchartDiagramElement,
+        NamespaceElement,
+        ClassElement,
+        SequenceDiagramElement,
+        SequenceBoxElement {
     private String comment;
 
     public Comment(String comment) {

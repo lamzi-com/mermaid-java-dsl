@@ -1,7 +1,7 @@
 package com.lamzi.doc.mermaid.diagram.classdiagram;
 
-import com.lamzi.doc.mermaid.diagram.DiagramElement;
-import com.lamzi.doc.mermaid.diagram.MermaidWriter;
+import com.lamzi.doc.mermaid.diagram.internal.DiagramElement;
+import com.lamzi.doc.mermaid.diagram.internal.MermaidWriter;
 
 public class Link implements ClassDiagramElement {
     private final Type type;

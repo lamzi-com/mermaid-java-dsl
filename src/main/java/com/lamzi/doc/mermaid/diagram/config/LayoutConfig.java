@@ -1,6 +1,6 @@
 package com.lamzi.doc.mermaid.diagram.config;
 
-import com.lamzi.doc.mermaid.diagram.MermaidWriter;
+import com.lamzi.doc.mermaid.diagram.internal.MermaidWriter;
 
 public class LayoutConfig implements Config {
     private Layout layout;

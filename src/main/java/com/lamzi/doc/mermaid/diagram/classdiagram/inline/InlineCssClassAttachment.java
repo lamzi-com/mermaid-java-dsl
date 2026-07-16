@@ -1,6 +1,6 @@
 package com.lamzi.doc.mermaid.diagram.classdiagram.inline;
 
-import com.lamzi.doc.mermaid.diagram.MermaidWriter;
+import com.lamzi.doc.mermaid.diagram.internal.MermaidWriter;
 import com.lamzi.doc.mermaid.diagram.classdiagram.Type;
 
 import java.util.ArrayList;

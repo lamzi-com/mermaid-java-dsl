@@ -1,6 +1,6 @@
 package com.lamzi.doc.mermaid.diagram.flowchart.shape;
 
-import com.lamzi.doc.mermaid.diagram.MermaidWriter;
+import com.lamzi.doc.mermaid.diagram.internal.MermaidWriter;
 
 /**
  * https://mermaid.js.org/syntax/flowchart.html#icon-shape

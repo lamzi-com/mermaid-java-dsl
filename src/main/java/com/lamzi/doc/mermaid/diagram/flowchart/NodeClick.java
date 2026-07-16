@@ -1,6 +1,6 @@
 package com.lamzi.doc.mermaid.diagram.flowchart;
 
-import com.lamzi.doc.mermaid.diagram.MermaidWriter;
+import com.lamzi.doc.mermaid.diagram.internal.MermaidWriter;
 import com.lamzi.doc.mermaid.diagram.classdiagram.ClassDiagramElement;
 
 public abstract class NodeClick<T extends NodeClick<T>> implements FlowchartDiagramElement {

@@ -1,4 +1,4 @@
-package com.lamzi.doc.mermaid.diagram;
+package com.lamzi.doc.mermaid.diagram.internal;
 
 import java.io.StringWriter;
 

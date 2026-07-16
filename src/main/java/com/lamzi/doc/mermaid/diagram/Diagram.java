@@ -1,6 +1,8 @@
 package com.lamzi.doc.mermaid.diagram;
 
 import com.lamzi.doc.mermaid.diagram.config.DiagramConfiguration;
+import com.lamzi.doc.mermaid.diagram.internal.DiagramElement;
+import com.lamzi.doc.mermaid.diagram.internal.MermaidWriter;
 
 import java.util.ArrayList;
 import java.util.List;

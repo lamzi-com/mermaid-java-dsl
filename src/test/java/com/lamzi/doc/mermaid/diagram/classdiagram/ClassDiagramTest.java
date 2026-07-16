@@ -4,7 +4,7 @@ import com.lamzi.doc.mermaid.diagram.BaseTest;
 import com.lamzi.doc.mermaid.diagram.CssClassDefinition;
 import com.lamzi.doc.mermaid.diagram.DiagramFrontMatter;
 import com.lamzi.doc.mermaid.diagram.MermaidException;
-import com.lamzi.doc.mermaid.diagram.MermaidWriter;
+import com.lamzi.doc.mermaid.diagram.internal.MermaidWriter;
 import com.lamzi.doc.mermaid.diagram.StyleDefinition;
 import com.lamzi.doc.mermaid.diagram.classdiagram.inline.InlineCssClassAttachment;
 import com.lamzi.doc.mermaid.diagram.classdiagram.relation.Direction;
@@ -21,7 +21,7 @@ class ClassDiagramTest extends BaseTest {
     @Test
     public void animalExample() {
         DiagramFrontMatter<ClassDiagramConfiguration> frontMatter = new DiagramFrontMatter<>();
-        frontMatter.setTitle("Animal example");
+        frontMatter.title("Animal example");
         ClassDiagram classDiagram = new ClassDiagram(frontMatter);
         classDiagram
                 .note("From Duck till Zebra")
@@ -54,7 +54,7 @@ class ClassDiagramTest extends BaseTest {
     @Test
     public void bankExample() {
         DiagramFrontMatter<ClassDiagramConfiguration> frontMatter = new DiagramFrontMatter<>();
-        frontMatter.setTitle("Bank example");
+        frontMatter.title("Bank example");
         ClassDiagram classDiagram = new ClassDiagram(frontMatter);
         classDiagram
                 .classElement(aClass("BankAccount"))
