@@ -21,24 +21,24 @@ public class SequenceDiagramFactory {
         return new SequenceMessage(from, line, head, to, text);
     }
 
-    public static SequenceNote noteRightOf(String actor, String text) {
-        return SequenceNote.rightOf(actor, text);
+    public static SequenceNote noteRightOf(String participantId, String text) {
+        return SequenceNote.rightOf(participantId, text);
     }
 
-    public static SequenceNote noteLeftOf(String actor, String text) {
-        return SequenceNote.leftOf(actor, text);
+    public static SequenceNote noteLeftOf(String participantId, String text) {
+        return SequenceNote.leftOf(participantId, text);
     }
 
     public static SequenceNote noteOver(String text, String... actors) {
         return SequenceNote.over(text, actors);
     }
 
-    public static SequenceActivation activate(String actor) {
-        return new SequenceActivation(SequenceActivation.Kind.ACTIVATE, actor);
+    public static SequenceActivation activate(String participantId) {
+        return new SequenceActivation(SequenceActivation.Kind.ACTIVATE, participantId);
     }
 
-    public static SequenceActivation deactivate(String actor) {
-        return new SequenceActivation(SequenceActivation.Kind.DEACTIVATE, actor);
+    public static SequenceActivation deactivate(String participantId) {
+        return new SequenceActivation(SequenceActivation.Kind.DEACTIVATE, participantId);
     }
 
     public static SequenceAutonumber autonumber() {
