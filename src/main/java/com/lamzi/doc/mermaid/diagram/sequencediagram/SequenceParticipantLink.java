@@ -7,8 +7,8 @@ public class SequenceParticipantLink implements SequenceDiagramElement {
     private final String label;
     private final String url;
 
-    public SequenceParticipantLink(String participant, String label, String url) {
-        this.participant = participant;
+    public SequenceParticipantLink(String participantId, String label, String url) {
+        this.participant = participantId;
         this.label = label;
         this.url = url;
     }
