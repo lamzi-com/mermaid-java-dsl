@@ -42,6 +42,10 @@ public abstract class SequenceBlock<T extends SequenceBlock<T>> implements Seque
         return add(participant);
     }
 
+    public T message(String from, String to, String text) {
+        return message(SequenceDiagramFactory.message(from, to).text(text));
+    }
+
     public T message(SequenceMessage message) {
         return add(message);
     }

@@ -61,12 +61,11 @@ public class SequenceMessage implements SequenceDiagramElement {
         }
     }
 
-    public SequenceMessage(String from, Line line, Head head, String to, String text) {
+    public SequenceMessage(String from, Line line, Head head, String to) {
         this.from = from;
         this.line = line;
         this.head = head;
         this.to = to;
-        this.text = text;
     }
 
     public SequenceMessage text(String text) {

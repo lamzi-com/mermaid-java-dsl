@@ -13,12 +13,12 @@ public class SequenceDiagramFactory {
         return new SequenceParticipantConfig();
     }
 
-    public static SequenceMessage message(String from, String to, String text) {
-        return new SequenceMessage(from, SequenceMessage.Line.SOLID, SequenceMessage.Head.ARROW, to, text);
+    public static SequenceMessage message(String from, String to) {
+        return new SequenceMessage(from, SequenceMessage.Line.SOLID, SequenceMessage.Head.ARROW, to);
     }
 
-    public static SequenceMessage message(String from, SequenceMessage.Line line, SequenceMessage.Head head, String to, String text) {
-        return new SequenceMessage(from, line, head, to, text);
+    public static SequenceMessage message(String from, SequenceMessage.Line line, SequenceMessage.Head head, String to) {
+        return new SequenceMessage(from, line, head, to);
     }
 
     public static SequenceNote noteRightOf(String participantId, String text) {

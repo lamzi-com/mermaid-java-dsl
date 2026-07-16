@@ -37,7 +37,7 @@ public class SequenceDiagram extends Diagram<SequenceDiagramConfiguration, Seque
     }
 
     public SequenceDiagram message(String from, String to, String text) {
-        return message(new SequenceMessage(from, SequenceMessage.Line.SOLID, SequenceMessage.Head.ARROW, to, text));
+        return message(new SequenceMessage(from, SequenceMessage.Line.SOLID, SequenceMessage.Head.ARROW, to).text(text));
     }
 
     public SequenceDiagram note(SequenceNote note) {
